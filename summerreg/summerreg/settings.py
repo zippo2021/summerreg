@@ -36,12 +36,9 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-<<<<<<< HEAD
     'gui',
-
-=======
-	'registration',
->>>>>>> 9b1705e68b3df3b39d377761b09efc3afe6eed4d
+    'registration',
+    'customuseradmin',
 )
 
 MIDDLEWARE_CLASSES = (
