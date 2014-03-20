@@ -11,7 +11,7 @@
 {{ form.non_field_errors }}
 {% endif %}
 
-<form method="post" action=""> {% csrf_token %}
+<form method="post" action="">
 <dl class="register">   
 {% for field in form %}
     <dt>{{ field.label_tag }}</dt>
@@ -30,9 +30,16 @@ document.getElementById('id_username').focus()
 
  <br/><br/>
 <ul>
-	 <li><a href="{% url auth_password_reset %}">Забыли пароль?</a></li>     
-	 <li><a href="{% url registration_register %}">Регистрация</a></li>       	    
+    <li><a href="{% url auth_password_reset %}">Забыли пароль?</a></li>
+    <li><a href="{% url registration_register %}">Регистрация</a></li>
 </ul>   
 {% endif %}
 {% endblock %}
 
+
+# templates/registration/logout.html
+{% extends "base.html"  %}
+{% block content %}
+<h1>Выход</h1>
+Спасибо, что были с нами. Ждем вас снова.<br/><br/>
+{% endblock %}
