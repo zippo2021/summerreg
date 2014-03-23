@@ -10,4 +10,5 @@ urlpatterns = patterns('',
     url(r'^gui/', include('gui.urls')),
     url(r'^admin/', include(admin.site.urls)),
 	url(r'^accounts/', include('registration.urls')),
+	url(r'^export/', include('export.urls')),
 )
