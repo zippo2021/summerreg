@@ -65,6 +65,7 @@ EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_TLS = False
 DEFAULT_FROM_EMAIL = 'info@google.ru'
 
+EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend' #test for userena
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
