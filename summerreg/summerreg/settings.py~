@@ -39,7 +39,8 @@ INSTALLED_APPS = (
     'gui',
     'registration',
     'customuseradmin',
-    'accounts',
+    'export',
+    'dashboard',
 )
 
 MIDDLEWARE_CLASSES = (
