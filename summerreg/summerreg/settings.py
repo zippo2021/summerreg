@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'registration',
     'customuseradmin',
     'export',
+    'dashboard',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -65,6 +66,10 @@ EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_TLS = False
 DEFAULT_FROM_EMAIL = 'info@google.ru'
+
+EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend' #test for userena
+
+LOGIN_URL = '/accounts/login'
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
