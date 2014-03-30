@@ -1,0 +1,13 @@
+<table>
+{% for each in table %}
+       <tr>
+	{% for every in each %}
+	       <td>
+	           {{ every }}
+	       </td> 
+	{% endfor %}
+	       <td>
+                   <a href="{% url 'showdb' %}/{{ each|first }}">Apply</a>
+       </tr>
+{% endfor %}
+</table>
