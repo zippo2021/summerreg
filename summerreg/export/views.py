@@ -22,30 +22,28 @@ def export_database(request):
 
 def export_csv(request):
     import csv       
-    import MySQLdb
-    from MySQLdb import cursors
-    # Needs to be changed-------------------------------------------
-    user_name = request.POST.get('user_name', False)
-    #---------------------------------------------------------------
-    conn = MySQLdb.connect(
-    user="user",
-    passwd="password",
-    db="contrib",
-    cursorclass = cursors.SSCursor                                                  )
-    cur = conn.cursor()
-    print "Executing query"
-    # Needs to be changed-------------------------------------------
-    if user_name:                                         
-	cur.execute("SELECT * FROM auth_user WHERE	  						username = (%s)", (user_name,))
-    else:
-	cur.execute("SELECT * FROM auth_user")
-    # --------------------------------------------------------------
+    from django.contrib.auth.models import User
     # Create the HttpResponse object with the appropriate CSV header.
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="db.csv"'
-    writer = csv.writer(response) 
-    row = cur.fetchone() 
-    while row is not None: 
-        writer.writerow(row[2:5])
-        row = cur.fetchone()
+    writer = csv.writer(response)
+    field = 'username'
+    writer.writerow(field)
+    for each in User.objects.values(fields): 
+        writer.writerow(each.values())
     return response
+
+def show_database(request):
+    from django.contrib.auth.models import User
+    template = loader.get_template('export/showdb.html')
+    field = 'username'
+    table = [each.values() for each in User.objects.values(field)]
+    context = RequestContext(request, {'table' : table})
+    return HttpResponse(template.render(context))
+
+def apply_user(request, username):
+    from django.contrib.auth.models import User
+    user=User.objects.get(username=username)
+    user.username+='1'
+    user.save()
+    return show_database(request) 
