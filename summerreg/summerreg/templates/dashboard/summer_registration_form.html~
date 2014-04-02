@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <form method="post">
+      {% csrf_token %}
+      <table>
+        {{ form }}
+        <div class="fieldWrapper">
+        {{ form.subject.errors }}
+        <label for="id_first_name">Это поле обязательно </label>
+        {{ form.subject }}
+        </div>            
+        <div class="fieldWrapper">
+        {{ form.subject.errors }}
+        <label for="id_middle_name">Это поле обязательно</label>
+        {{ form.subject }}
+        </div>        
+        <div class="fieldWrapper">
+        {{ form.subject.errors }}
+        <label for="id_last_name">Это поле обязательно</label>
+        {{ form.subject }}
+        </div>
+        <div class="fieldWrapper">
+        {{ form.subject.errors }}
+        <label for="id_birthdate">Это поле обязательно</label>
+        {{ form.subject }}
+        </div>
+        <div class="fieldWrapper">
+        {{ form.subject.errors }}
+        <label for="id_birthplace">Это поле обязательно</label>
+        {{ form.subject }}
+        </div>
+        <div class="fieldWrapper">
+        {{ form.subject.errors }}
+        <label for="id_postal_code">Это поле обязательно</label>
+        {{ form.subject }}
+        </div>        
+        
+        <tr>
+          <td colspan="2">
+            <input type="submit" name="login" value="Послать заявку"/>
+          </td>
+        </tr>
+      </table>
+    </form>
+
+{% endblock %}
