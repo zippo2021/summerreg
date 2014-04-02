@@ -1,16 +1,9 @@
-{% extends "base.html" %}
+{% extends "dashboard/base.html" %}
+
+{% block title %}Главная{% endblock %}
+
 {% block content %}
-{% load staticfiles %}
-<link rel="stylesheet" type="text/css" href="{% static 'menu.css' %}" />
-<div id='cssmenu'>
-<ul>
-   <li class='has-sub'><span>Информация о пользователе {{ user.username }}</span>
-      <ul>
- 	    <li class='last'><a href="{% url 'summer_registration' %}"><span>Зарегистрироваться на летнюю школу</span></a></li> 
-        <li class='last'><a href="{% url 'user_data' %}"><span>Изменение анкеты</span></a></li>   
-      </ul>
-   </li>
-   <li class='last'><a href="{% url 'auth_logout' %}"><span>Выход</span></a></li>
-</ul>
-</div>
+
+<h1>too drunk to fuck<h1>
+
 {% endblock %}

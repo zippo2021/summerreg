@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html>
-{% load staticfiles %}
 <head>
     	<title>{% block title %}Личный кабинет{% endblock %}</title>
         <link rel="stylesheet" type="text/css" href="{% static 'menu.css' %}" />    
 </head>
                 
 <body>
+
+{% load staticfiles %}
 <div id='cssmenu'>
 {% block menu %}
     <ul>

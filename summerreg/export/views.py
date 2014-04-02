@@ -34,17 +34,14 @@ def export_csv(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="db.csv"'
     writer = csv.writer(response)
-<<<<<<< HEAD
     fields = config.get('Export','fields_to_show')
     #writer.writerow(fields)
     for each in User.objects.values_list(fields): 
         writer.writerow(each)
-=======
     field = 'username'
     writer.writerow(field)
     for each in User.objects.values(field): 
         writer.writerow(each.values())
->>>>>>> da987ad9ee672bd3414c3d462e54380fb18ed741
     return response
 
 def show_database(request):
