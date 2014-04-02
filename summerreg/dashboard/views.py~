@@ -35,7 +35,12 @@ def create_data_model(form,id):
 
 @login_required
 def dash_index(request):
-    html = render(request,"dashboard/dash_index.html")
+    p=False    
+    try:
+        tmp_data = UserData.objects.get(id=id)
+    except UserData.DoesNotExist:
+        p = True #No userdata stored, so registration is available       
+    html = render(request,"dashboard/dash_index.html",{"reg_permitted":p})
     return HttpResponse(html)
 
 @login_required
@@ -69,14 +74,15 @@ def user_data_viewer(request):
         else:
             html = render(request,"dashboard/summer_registration_form.html",{'form':form})
             return HttpResponse(html)
-    try:
-        tmp_data = UserData.objects.get(id=id)
-    except UserData.DoesNotExist:            
-        form = UserCreationForm()    
+    else:    
+        try:
+            tmp_data = UserData.objects.get(id=id)
+        except UserData.DoesNotExist:            
+            form = UserCreationForm()    
+            html = render(request,"dashboard/worksheet.html",{'form':form})
+            return HttpResponse(html)        
+        form = UserCreationForm(instance=tmp_data)    
         html = render(request,"dashboard/worksheet.html",{'form':form})
-        return HttpResponse(html)        
-    form = UserCreationForm(instance=tmp_data)    
-    html = render(request,"dashboard/worksheet.html",{'form':form})
-    return HttpResponse(html)
+        return HttpResponse(html)
     
 

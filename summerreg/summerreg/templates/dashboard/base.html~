@@ -13,7 +13,7 @@
        <li class='active'><a href="{%  url 'dash_index' %}"><span>Личный кабинет пользователя {{ user.username }}</span></a></li>
        <li class='has-sub'><a href='#'><span>Сервисы</span></a>
        <ul>
-            {% if reg_permitted %}<li><a href="{% url 'summer_registration' %}"><span>Регистрация на летнюю школу</span></a></li> {% endif %}
+            <li><a href="{% url 'summer_registration' %}"><span>Регистрация на летнюю школу</span></a></li>
             <li class='last'><a href="{% url 'user_data' %}"><span>Редактирование анкеты</span></a></li>
        </ul>
        </li>
