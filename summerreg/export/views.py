@@ -1,6 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.template import loader, RequestContext
+from ConfigParser import RawConfigParser
+import os
+
+config = RawConfigParser()
+config_file = open(os.path.join(os.getcwd(),'config.cfg'))
+config.readfp(config_file)
+
 
 def index(request):
     template = loader.get_template('export/index.html')
@@ -27,17 +34,17 @@ def export_csv(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="db.csv"'
     writer = csv.writer(response)
-    field = 'username'
-    writer.writerow(field)
-    for each in User.objects.values(fields): 
-        writer.writerow(each.values())
+    fields = config.get('Export','fields_to_show')
+    #writer.writerow(fields)
+    for each in User.objects.values_list(fields): 
+        writer.writerow(each)
     return response
 
 def show_database(request):
     from django.contrib.auth.models import User
     template = loader.get_template('export/showdb.html')
-    field = 'username'
-    table = [each.values() for each in User.objects.values(field)]
+    fields = config.get('Export','fields_to_show')
+    table = [each for each in User.objects.values_list(fields)]
     context = RequestContext(request, {'table' : table})
     return HttpResponse(template.render(context))
 
@@ -46,4 +53,4 @@ def apply_user(request, username):
     user=User.objects.get(username=username)
     user.username+='1'
     user.save()
-    return show_database(request) 
+    return redirect('showdb')
