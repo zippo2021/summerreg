@@ -1,13 +1,3 @@
-<table>
-{% for each in table %}
-       <tr>
-	{% for every in each %}
-	       <td>
-	           {{ every }}
-	       </td> 
-	{% endfor %}
-	       <td>
-                   <a href="{% url 'showdb' %}/{{ each|first }}">Apply</a>
-       </tr>
-{% endfor %}
-</table>
+<title> Show Database </title>
+<p> Здесь Вы можете выбрать параметры отображения базы данных и получить отображение, с возможностью подтвердить участие детей в летней школе </p>
+
