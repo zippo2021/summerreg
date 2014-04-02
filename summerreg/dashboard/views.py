@@ -35,7 +35,13 @@ def create_data_model(form,id):
 
 @login_required
 def dash_index(request):
-    html = render(request,"dashboard/dash_index.html")
+    id = request.user     
+    p = False    
+    try:
+        tmp_data = UserData.objects.get(id=id)
+    except UserData.DoesNotExist:
+        p = True #No userdata stored, so registration is available       
+    html = render(request,"dashboard/dash_index.html",{"reg_permitted":p})
     return HttpResponse(html)
 
 @login_required
