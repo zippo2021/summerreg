@@ -1,13 +1,30 @@
 {% load field_type %}
 
-<form action ="/results" method="POST">
+<form action ="{% url 'create' %}" method="POST">
+	{% csrf_token %}
 	{{ form.non_field_errors }}
 	<div class="fieldWrapper">
-		{% for field in form %}
+		<p> Выбор города: </p>
+		<p>{% for field in form %}
 			{% if field.field.widget|fieldtype = 'CheckboxInput' %}
-				 <label for="id_message">{{ field.label }}</label>
-				 {{ field }}
+				{{ field.label_tag }}
+				{{ field }}
 
 			{% endif %}
 		{% endfor %}
+		</p>
 	</div>
+	<div class="fieldWrapper">
+		<p> Выбор группы учеников: </p>
+		<p>{% for field in form %}
+			{% if field.field.widget|fieldtype = 'Select' %}
+				{{ field.label_tag }}
+				{{ field }}
+
+			{% endif %}
+		{% endfor %}
+		</p>
+	</div>
+		<p><input type="submit" value="Отобразить" /></p>
+	</form>
+		

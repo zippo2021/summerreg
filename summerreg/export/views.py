@@ -34,36 +34,51 @@ def export_csv(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="db.csv"'
     writer = csv.writer(response)
-    fields = config.get('Export','fields_to_show')
+    fields = config.get('Export','fields_to_csv').split(', ')
     #writer.writerow(fields)
-    for each in UserData.objects.values_list(): 
+    for each in UserData.objects.values_list(*fields): 
         writer.writerow(each)
-<<<<<<< HEAD
-=======
-    field = 'username'
-    writer.writerow(field)
-    for each in User.objects.values(field): 
-        writer.writerow(each.values())
->>>>>>> d0f70ed826569a7946271bb56fb9a94e7b5949d9
     return response
 
-def show_database(request):
+def create(request):
     from export.forms import showdb_form
-    if request.method == 'POST': form = showdb_form(request.POST)
-    else: form = showdb_form()
+    if request.method == 'POST':
+	form = showdb_form(request.POST)
+    	if form.is_valid():
+	    table=results(form)			
+    	    template = loader.get_template('export/results.html')
+	    context = RequestContext(request, {'table' : table})
+	    return HttpResponse(template.render(context))
+    else:
+	form = showdb_form()
     template = loader.get_template('export/create.html')
     context = RequestContext(request, {'form' : form})
-    return HttpResponse(template.render(context))
+    return HttpResponse(template.render(context)) 
 
-def results(request):
+def results(form):
     from dashboard.models import UserData
-    template = loader.get_template('export/showdb.html')
-    #fields = config.get('Export','fields_to_show')
-    fields = ('id','is_accepted','last_name','first_name','middle_name','city')
-    values = (each for each in UserData.objects.exclude(is_admin='True').values_list(*fields))
-    table = dict.fromkeys(fields, values)
-    context = RequestContext(request, {'table' : table})
-    return HttpResponse(template.render(context))
+    from export.forms import showdb_form
+    fields = config.get('Export','fields_to_show').split(', ')
+    #about cities
+    if form.cleaned_data['city_all'] == True:
+	filter_cities = False
+    else:
+        filter_cities= True
+	cities=[]
+	for key in form.cleaned_data.keys():
+	    if 'city_' in key: 
+		if form.cleaned_data[key] == True:
+		    cities.append(key.split('_')[1]) 
+    #about is_accepted
+    filter_accepted = form.cleaned_data['accepted'] == 'accepted_not'
+    #executing
+    filtered = UserData.objects.all()
+    if filter_cities:
+	filtered = filtered.filter(city__in = cities)
+    if filter_accepted:
+        filtered = filtered.filter(is_accepted__exact = False)
+    table = filtered.values(*fields)
+    return table
 
 def apply_user(request, id):
     from dashboard.models import UserData

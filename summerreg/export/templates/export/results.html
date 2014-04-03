@@ -1,0 +1,18 @@
+<table border=1>
+		<tr> 
+	{% for each in table|first %}
+			<td>
+			{{ each }}
+			</td>
+	{% endfor %}
+		</tr>
+	{% for every in table %}
+		<tr>	
+			{% for each in every.values %}
+			<td>
+			{{ each }}
+			</td>
+			{% endfor %}
+		</tr>
+	{% endfor %}
+</table>
