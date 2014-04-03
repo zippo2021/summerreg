@@ -8,11 +8,10 @@ BIRTH_YEAR_CHOICES = ('1984')
 BIRTH_MONTHS_CHOISES = ('1')
 BIRTH_DAYS_CHOISES = ('1')
 class UserCreationForm(forms.ModelForm):
-    #avatar  = forms.FileField(label = 'Аватар')
     birthdate = forms.DateField(label='Дата рождения',widget=forms.DateInput(format = '%d/%m/%Y'), input_formats=('%d/%m/%Y',))
     class Meta:
         model = UserData
-        fields = [
+        '''fields = [
                     'first_name',
                     'middle_name',
                     'last_name', 
@@ -24,4 +23,10 @@ class UserCreationForm(forms.ModelForm):
                     'building',
                     'housing',
                     'appartment',                    
+                ]'''
+        exclude = [
+                  'id',
+                  'is_admin',
+                  'is_accepted',
+                  'is_moderator',
                 ]
