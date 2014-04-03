@@ -38,13 +38,10 @@ def export_csv(request):
     #writer.writerow(fields)
     for each in UserData.objects.values_list(*fields): 
         writer.writerow(each)
-<<<<<<< HEAD
-=======
     field = 'username'
     writer.writerow(field)
     for each in User.objects.values(field): 
         writer.writerow(each.values())
->>>>>>> 246f2a2e55545e64a70f24004768423a19c01d63
     return response
 
 def create(request):
@@ -90,6 +87,6 @@ def results(form):
 def apply_user(request, id):
     from dashboard.models import UserData
     user = UserData.objects.get(id=id)
-    user.is_applyed = True
+    user.is_accepted = True
     user.save()
     return redirect('showdb')
