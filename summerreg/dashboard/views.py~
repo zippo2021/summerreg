@@ -35,7 +35,8 @@ def create_data_model(form,id):
 
 @login_required
 def dash_index(request):
-    p=False    
+    id = request.user     
+    p = False    
     try:
         tmp_data = UserData.objects.get(id=id)
     except UserData.DoesNotExist:

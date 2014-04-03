@@ -29,35 +29,45 @@ def export_database(request):
 
 def export_csv(request):
     import csv       
-    from django.contrib.auth.models import User
+    from dashboard.models import UserData
     # Create the HttpResponse object with the appropriate CSV header.
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="db.csv"'
     writer = csv.writer(response)
-<<<<<<< HEAD
     fields = config.get('Export','fields_to_show')
     #writer.writerow(fields)
-    for each in User.objects.values_list(fields): 
+    for each in UserData.objects.values_list(): 
         writer.writerow(each)
+<<<<<<< HEAD
 =======
     field = 'username'
     writer.writerow(field)
     for each in User.objects.values(field): 
         writer.writerow(each.values())
->>>>>>> da987ad9ee672bd3414c3d462e54380fb18ed741
+>>>>>>> d0f70ed826569a7946271bb56fb9a94e7b5949d9
     return response
 
 def show_database(request):
-    from django.contrib.auth.models import User
+    from export.forms import showdb_form
+    if request.method == 'POST': form = showdb_form(request.POST)
+    else: form = showdb_form()
+    template = loader.get_template('export/create.html')
+    context = RequestContext(request, {'form' : form})
+    return HttpResponse(template.render(context))
+
+def results(request):
+    from dashboard.models import UserData
     template = loader.get_template('export/showdb.html')
-    fields = config.get('Export','fields_to_show')
-    table = [each for each in User.objects.values_list(fields)]
+    #fields = config.get('Export','fields_to_show')
+    fields = ('id','is_accepted','last_name','first_name','middle_name','city')
+    values = (each for each in UserData.objects.exclude(is_admin='True').values_list(*fields))
+    table = dict.fromkeys(fields, values)
     context = RequestContext(request, {'table' : table})
     return HttpResponse(template.render(context))
 
-def apply_user(request, username):
-    from django.contrib.auth.models import User
-    user=User.objects.get(username=username)
-    user.username+='1'
+def apply_user(request, id):
+    from dashboard.models import UserData
+    user = UserData.objects.get(id=id)
+    user.is_applyed = True
     user.save()
     return redirect('showdb')
