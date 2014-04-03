@@ -64,6 +64,7 @@ def summer_registration(request):
         form = UserCreationForm()        
         html = render(request,"dashboard/summer_registration_form.html",{'form':form})    
         return HttpResponse(html)   
+
       
 @login_required
 def user_data_viewer(request):
