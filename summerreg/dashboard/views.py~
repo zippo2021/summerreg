@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from dashboard.forms import UserCreationForm
 from dashboard.models import UserData
 
-def create_data_model(form,id):
+def create_data_model(form,id,avatar):
     first_name = form.cleaned_data.get('first_name',None)
     middle_name = form.cleaned_data.get('middle_name',None)
     last_name = form.cleaned_data.get('last_name',None)
@@ -19,6 +19,7 @@ def create_data_model(form,id):
     appartment = form.cleaned_data.get('appartment',None)            
     data = UserData(
                     id=id,
+                    avatar=avatar,
                     first_name=first_name,
                     middle_name=middle_name,
                     last_name=last_name,
@@ -47,10 +48,11 @@ def dash_index(request):
 @login_required
 def summer_registration(request):
     if request.method =='POST':
-        form = UserCreationForm(request.POST)
+        form = UserCreationForm(request.POST, request.FILES)
         if form.is_valid():
             id = request.user
-            data = create_data_model(form,id)
+            avatar = request.FILES['avatar']
+            data = create_data_model(form,id,avatar)
             data.save()
             '''form.(initial={'id') = id
             form.save();''' 
@@ -62,14 +64,16 @@ def summer_registration(request):
         form = UserCreationForm()        
         html = render(request,"dashboard/summer_registration_form.html",{'form':form})    
         return HttpResponse(html)   
+
       
 @login_required
 def user_data_viewer(request):
     id = request.user    
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)    
+        form = UserCreationForm(request.POST,request.FILES)    
         if form.is_valid():
-            data = create_data_model(form,id)
+            avatar = request.FILES['avatar']
+            data = create_data_model(form,id,avatar)
             data.save()
             return redirect('dash_index')
         else:
