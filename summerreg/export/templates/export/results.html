@@ -2,17 +2,27 @@
 		<tr> 
 	{% for each in table|first %}
 			<td>
+			{% if each != 'id' %}
 			{{ each }}
+			{% endif %}
 			</td>
 	{% endfor %}
+			<td>
+			Oh LOL
+			</td
 		</tr>
 	{% for every in table %}
 		<tr>	
-			{% for each in every.values %}
+			{% for each in every.items %}
 			<td>
-			{{ each }}
+			{% if each|first != 'id' %}	
+			{{ each|last}}
+			{% endif %}
 			</td>
 			{% endfor %}
+			<td>
+			<a href="{% url 'showdb' %}/{{ every.id }}">Apply</a>
+			</td>
 		</tr>
 	{% endfor %}
 </table>

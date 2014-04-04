@@ -1,14 +1,15 @@
-from django.forms import Form, BooleanField, ChoiceField
+from django import forms
 from dashboard.models import UserData
-class showdb_form(Form):
+
+
+class showdb_form(forms.Form):
     #dynamic form, fields: checkboxes 
-    def __init__(self, *args, **kwargs):  
-        CITY_CHOICES = list(UserData.objects.values_list('city', flat = True))+['all']
-	super(showdb_form, self).__init__(*args, **kwargs)
-	for each in CITY_CHOICES:
-	    self.fields['city_%s' % each] = BooleanField(label = '%s' % each, required = False)
+    CITY_CHOICES = list(UserData.objects.values_list('city', flat = True))+['all']
+    CITY_CHOICES = [(each, each) for each in CITY_CHOICES]
+    cities = forms.MultipleChoiceField(required=True, widget=forms.CheckboxSelectMultiple, choices=CITY_CHOICES, initial='all', label='Cities(to be trans)')
+
     #dynamic form, static fields
-    accepted = ChoiceField(choices=(('accepted_all','all'),('accepted_not','not applyed')), required = False)
+    accepted = forms.ChoiceField(choices=(('all','all'),('not','not applyed')), required = False, label='Users(to be trans)')
     #special
     def get_city_choices():
 	return CITY_CHOICES[:].remove('all')

@@ -1,29 +1,21 @@
 {% load field_type %}
 
-<form action ="{% url 'create' %}" method="POST">
+<form action ="{% url 'showdb' %}" method="POST">
 	{% csrf_token %}
 	{{ form.non_field_errors }}
 	<div class="fieldWrapper">
-		<p> Выбор города: </p>
-		<p>{% for field in form %}
-			{% if field.field.widget|fieldtype = 'CheckboxInput' %}
-				{{ field.label_tag }}
-				{{ field }}
-
-			{% endif %}
-		{% endfor %}
-		</p>
+		<p> Выбор города: </p>	
+			{{ form.cities.label_tag }}
+		        {{ form.cities.errors }}
+			{{ form.cities }}
+		
 	</div>
 	<div class="fieldWrapper">
 		<p> Выбор группы учеников: </p>
-		<p>{% for field in form %}
-			{% if field.field.widget|fieldtype = 'Select' %}
-				{{ field.label_tag }}
-				{{ field }}
-
-			{% endif %}
-		{% endfor %}
-		</p>
+		        {{ form.accepted.errors }}
+			{{ form.cities.label_tag }}
+			{{ form.accepted }}
+		
 	</div>
 		<p><input type="submit" value="Отобразить" /></p>
 	</form>

@@ -38,13 +38,6 @@ def export_csv(request):
     #writer.writerow(fields)
     for each in UserData.objects.values_list(*fields): 
         writer.writerow(each)
-<<<<<<< HEAD
-=======
-    field = 'username'
-    writer.writerow(field)
-    for each in User.objects.values(field): 
-        writer.writerow(each.values())
->>>>>>> 246f2a2e55545e64a70f24004768423a19c01d63
     return response
 
 def create(request):
@@ -67,17 +60,13 @@ def results(form):
     from export.forms import showdb_form
     fields = config.get('Export','fields_to_show').split(', ')
     #about cities
-    if form.cleaned_data['city_all'] == True:
+    if 'all' in form.cleaned_data['cities']:
 	filter_cities = False
     else:
         filter_cities= True
-	cities=[]
-	for key in form.cleaned_data.keys():
-	    if 'city_' in key: 
-		if form.cleaned_data[key] == True:
-		    cities.append(key.split('_')[1]) 
+	cities=form.cleaned_data['cities']
     #about is_accepted
-    filter_accepted = form.cleaned_data['accepted'] == 'accepted_not'
+    filter_accepted = form.cleaned_data['accepted'] == 'not'
     #executing
     filtered = UserData.objects.all()
     if filter_cities:
@@ -90,6 +79,6 @@ def results(form):
 def apply_user(request, id):
     from dashboard.models import UserData
     user = UserData.objects.get(id=id)
-    user.is_applyed = True
+    user.is_accepted = True
     user.save()
     return redirect('showdb')
