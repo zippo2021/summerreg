@@ -40,13 +40,6 @@ def export_csv(request):
     #writer.writerow(fields)
     for each in UserData.objects.values_list(*fields): 
         writer.writerow(each)
-<<<<<<< HEAD
-=======
-    '''field = 'username'
-    writer.writerow(field)
-    for each in User.objects.values(field): 
-        writer.writerow(each.values())'''
->>>>>>> 67fe722b735e25ab8021b065f3a4588559954fa6
     return response
 
 @staff_member_required
