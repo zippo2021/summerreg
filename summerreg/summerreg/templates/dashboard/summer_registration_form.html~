@@ -1,10 +1,15 @@
 {% extends "dashboard/base.html" %}
 {% block content %}
 
-    <form method="post">
+    <form enctype="multipart/form-data" method="post">
       {% csrf_token %}
       <table>
-        {{ form }}
+      {% for field in form %}
+        <div class="fieldWrapper">
+                {{ field.errors }}
+                <b>{{ field.label }}</b>:{{ field }}              
+        </div>
+      {% endfor %}
         <tr>
           <td colspan="2">
             <input type="submit" name="login" value="Послать заявку"/>
