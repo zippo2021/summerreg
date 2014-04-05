@@ -2,18 +2,20 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.template import loader, RequestContext
 from ConfigParser import RawConfigParser
+from django.contrib.admin.views.decorators import staff_member_required
 import os
 
 config = RawConfigParser()
 config_file = open(os.path.join(os.getcwd(),'config.cfg'))
 config.readfp(config_file)
 
-
+@staff_member_required
 def index(request):
     template = loader.get_template('export/index.html')
     context = RequestContext(request, {})
     return HttpResponse(template.render(context))
 
+@staff_member_required
 def export_database(request):
     import os
     from datetime import date
@@ -26,7 +28,7 @@ def export_database(request):
     response['Content-Disposition'] = 'attachment; filename=%s_db.sql.bz2' % date.today()
     return response
 
-
+@staff_member_required
 def export_csv(request):
     import csv       
     from dashboard.models import UserData
@@ -38,15 +40,13 @@ def export_csv(request):
     #writer.writerow(fields)
     for each in UserData.objects.values_list(*fields): 
         writer.writerow(each)
-<<<<<<< HEAD
-=======
-    field = 'username'
+    '''field = 'username'
     writer.writerow(field)
     for each in User.objects.values(field): 
-        writer.writerow(each.values())
->>>>>>> 6fe9c8b92004d15a38b1665741779972b9ff75a5
+        writer.writerow(each.values())'''
     return response
 
+@staff_member_required
 def create(request):
     from export.forms import showdb_form
     if request.method == 'POST':
@@ -83,6 +83,7 @@ def results(form):
     table = filtered.values(*fields)
     return table
 
+@staff_member_required
 def apply_user(request, id):
     from dashboard.models import UserData
     user = UserData.objects.get(id=id)
