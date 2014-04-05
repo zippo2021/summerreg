@@ -1,12 +1,15 @@
-
-<title>Export</title
-<p>Hi! this is export page!</p>
+{% extends "dashboard/base.html" %}
+{% block title %}Экспорт{% endblock %}
+{% block content %}
+<p>Это страница работы с базой. Ниже приведен список опций:</p>
 <p>
-    <a href="{% url 'exportdb' %}">Export whole DB</a>
+    <a href="{% url 'exportdb' %}">Сделать дамп базы</a>
 </p>
 <p>
-    <a href="{% url 'exportcsv' %}">Export csv file</a>
+    <a href="{% url 'exportcsv' %}">Экспортировать csv файл</a>
 </p>
 <p>
-    <a href="{% url 'create' %}">Show database</a>     
+    <a href="{% url 'showdb' %}">Отобразить базу</a>     
 </p>
+<a href="javascript:history.go(-1)">Назад</a>
+{% endblock %}

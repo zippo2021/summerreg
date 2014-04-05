@@ -38,13 +38,6 @@ def export_csv(request):
     #writer.writerow(fields)
     for each in UserData.objects.values_list(*fields): 
         writer.writerow(each)
-<<<<<<< HEAD
-=======
-    field = 'username'
-    writer.writerow(field)
-    for each in User.objects.values(field): 
-        writer.writerow(each.values())
->>>>>>> 6fe9c8b92004d15a38b1665741779972b9ff75a5
     return response
 
 def create(request):
@@ -52,28 +45,25 @@ def create(request):
     if request.method == 'POST':
 	form = showdb_form(request.POST)
     	if form.is_valid():
-	    table=results(form)			
-    	    template = loader.get_template('export/results.html')
-	    context = RequestContext(request, {'table' : table})
-	    return HttpResponse(template.render(context))
+	    request.session['form_data']=form.cleaned_data
+	    return redirect('results')
     else:
 	form = showdb_form()
     template = loader.get_template('export/create.html')
     context = RequestContext(request, {'form' : form})
     return HttpResponse(template.render(context)) 
 
-def results(form):
+def create_table(cleaned_data):
     from dashboard.models import UserData
-    from export.forms import showdb_form
     fields = config.get('Export','fields_to_show').split(', ')
     #about cities
-    if 'all' in form.cleaned_data['cities']:
+    if 'all' in cleaned_data['cities']:
 	filter_cities = False
     else:
         filter_cities= True
-	cities=form.cleaned_data['cities']
+	cities=cleaned_data['cities']
     #about is_accepted
-    filter_accepted = form.cleaned_data['accepted'] == 'not'
+    filter_accepted = cleaned_data['accepted'] == 'not'
     #executing
     filtered = UserData.objects.all()
     if filter_cities:
@@ -86,6 +76,15 @@ def results(form):
 def apply_user(request, id):
     from dashboard.models import UserData
     user = UserData.objects.get(id=id)
-    user.is_accepted = True
+    user.is_accepted = not(user.is_accepted)
     user.save()
-    return redirect('showdb')
+    return redirect('results')
+
+def results(request):
+     cleaned_data=request.session['form_data']
+     table = create_table(cleaned_data)
+     if not table: no_results=True
+     else: no_results=False
+     template = loader.get_template('export/results.html')
+     context = RequestContext(request, {'table' : table, 'no_results': no_results})
+     return HttpResponse(template.render(context))
