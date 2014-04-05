@@ -72,7 +72,11 @@ def user_data_viewer(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST,request.FILES)    
         if form.is_valid():
-            avatar = request.FILES['avatar']
+            try:
+                avatar = request.FILES['avatar']
+                raise Exception('No file provided')
+            except Exception as inst:
+                avatar = None
             data = create_data_model(form,id,avatar)
             data.save()
             return redirect('dash_index')
