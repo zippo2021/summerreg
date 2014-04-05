@@ -6,5 +6,6 @@ urlpatterns = patterns('',
     url(r'^exportcsv', views.export_csv, name='exportcsv'),
     url(r'^$', views.index, name="index"),
     url(r'^showdb/(?P<id>\d+)', views.apply_user, name='apply_user'), 
-    url(r'^showdb', views.create, name='showdb')
+    url(r'^showdb/results', views.results, name='results'),
+    url(r'^showdb', views.create, name='showdb'),
 )
