@@ -22,6 +22,7 @@ class Zagran(models.Model):
     when_issued = models.DateField(verbose_name="Когда выдан")
     exp_date = models.DateField(verbose_name="Срок действия")
 
+
 class UserData(models.Model):
     id = models.OneToOneField(User,primary_key=True)
     avatar = models.ImageField(verbose_name='Аватар',  upload_to='images/profile_pics', blank=True, null=True)
@@ -36,6 +37,14 @@ class UserData(models.Model):
     building = models.PositiveIntegerField(verbose_name='Дом',  max_length=4)
     housing = models.PositiveIntegerField(verbose_name='Корпус',  max_length=2)
     appartment = models.PositiveIntegerField(verbose_name='Квартира',  max_length=5)
+    father_initial = models.CharField(verbose_name='Фамилия Имя Отчество папы',  max_length=255)
+    father_phone  = models.PositiveIntegerField(verbose_name='Телефон папы',max_length=12)  
+    mother_initial = models.CharField(verbose_name='Фамилия Имя Отчество мамы',  max_length=255)
+    mother_phone = models.PositiveIntegerField(verbose_name='Телефон мамы',max_length=12)
+    school = models.CharField(verbose_name='Школа',  max_length=255)
+    phys_teacher_initial = models.CharField(verbose_name='Фамилия Имя Отчество учителя физики',  max_length=255)
+    maths_teacher_initial = models.CharField(verbose_name='Фамилия Имя Отчество учителя математики',  max_length=255)
+    principle_initial = models.CharField(verbose_name='Фамилия Имя Отчество директора школы',  max_length=255)
     doc_type = models.PositiveIntegerField(verbose_name='Тип документа',max_length=1,null=True)
     passport = models.OneToOneField(Passport,null=True)
     zagran = models.OneToOneField(Zagran,null=True)

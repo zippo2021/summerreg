@@ -7,8 +7,11 @@ from django.forms.extras.widgets import SelectDateWidget
 BIRTH_YEAR_CHOICES = ('1984')
 BIRTH_MONTHS_CHOISES = ('1')
 BIRTH_DAYS_CHOISES = ('1')
+school_choices = (('Школа 1','Школа 1'),('Школа 2','Школа 2'),('Школа 3','Школа 3'))
+
 class UserCreationForm(forms.ModelForm):
     birthdate = forms.DateField(label='Дата рождения',widget=forms.DateInput(format = '%d/%m/%Y'), input_formats=('%d/%m/%Y',))
+    school = forms.ChoiceField(choices=school_choices, required = True, label='Школа')
     class Meta:
         model = UserData
         '''fields = [
