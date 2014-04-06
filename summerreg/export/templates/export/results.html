@@ -11,7 +11,7 @@
 	<p>В базе данных нет результатов, удовлетвряющих вашему запросу<p>
 {% else %}
 <div class="CSSTableGenerator">
-<table border=1>
+<table>
 		<tr> 
 			<td>
 			Avatar
@@ -30,7 +30,7 @@
 	{% for every in table %}
 		<tr bgcolor="{% if every.is_accepted == True %}#7CCD7C{% else %}#FF7F50{% endif %}">	
 			<td>
-			<img src="{% static every.avatar %}" />
+			<img src="{% static every.avatar %}" height=50, width=50/>
 			</td>
 			{% for each in every.items %}
 			{% if each|first != 'id' and each|first != 'avatar' %}	
