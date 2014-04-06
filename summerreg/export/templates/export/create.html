@@ -1,12 +1,11 @@
 {% extends "dashboard/base.html" %}
 {% load staticfiles %}
 <head>
-	<link rel="stylesheet" type="text/css" href="{% static 'form.css' %}" />
 </head>
 {% load field_type %}
 {% block title %}Создание запроса{% endblock %}
 {% block content %}
-<form action ="{% url 'showdb' %}" method="POST">
+<form action ="{% url 'showdb' %}" class="form-container" method="POST">
 	{% csrf_token %}
 	{{ form.non_field_errors }}
 	<div class="fieldWrapper">
@@ -24,5 +23,7 @@
 	</div>
 		<p><input type="submit" value="Отобразить" /></p>
 	</form>
+<p>
 <a href="javascript:history.go(-1)">Назад</a>
+</p>
 {% endblock %}
