@@ -1,9 +1,11 @@
+# -*- coding: utf-8 -*-
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.template import loader, RequestContext
 from ConfigParser import RawConfigParser
 from django.contrib.admin.views.decorators import staff_member_required
 import os
+
 
 config = RawConfigParser()
 config_file = open(os.path.join(os.getcwd(),'config.cfg'))
@@ -60,11 +62,11 @@ def create_table(cleaned_data):
     from dashboard.models import UserData
     fields = config.get('Export','fields_to_show').split(', ')
     #about cities
-    if 'all' in cleaned_data['cities']:
+    if 'Все' in cleaned_data['cities']:
 	filter_cities = False
     else:
-        filter_cities= True
-	cities=cleaned_data['cities']
+        filter_cities = True
+	cities = cleaned_data['cities']
     #about is_accepted
     filter_accepted = cleaned_data['accepted'] == 'not'
     #executing
@@ -85,10 +87,10 @@ def apply_user(request, id):
     return redirect('results')
 
 def results(request):
-     cleaned_data=request.session['form_data']
+     cleaned_data = request.session['form_data']
      table = create_table(cleaned_data)
-     if not table: no_results=True
-     else: no_results=False
+     if not table: no_results = True
+     else: no_results = False
      template = loader.get_template('export/results.html')
      context = RequestContext(request, {'table' : table, 'no_results': no_results})
      return HttpResponse(template.render(context))
