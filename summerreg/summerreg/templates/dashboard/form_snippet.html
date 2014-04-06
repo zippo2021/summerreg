@@ -1,0 +1,14 @@
+{% load staticfiles %}
+{% for field in form %}
+	<div class="fieldWrapper">
+        	{{ field.errors }}
+                <b>{{ field.label }}</b> 
+                	{% if  field.html_name  == 'avatar'  %} 
+                	<img src="{% static field.value %}" /> 
+                	{% else %}
+                	:{{ field }}
+                	{% endif %}
+                	
+        </div>
+{% endfor %}
+                                                      

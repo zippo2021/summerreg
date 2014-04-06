@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django import forms
-from dashboard.models import UserData
+from dashboard.models import UserData,Passport,Zagran,Birth_cert
 from django.forms.fields import DateInput
 from django.forms.extras.widgets import SelectDateWidget
 
@@ -29,4 +29,26 @@ class UserCreationForm(forms.ModelForm):
                   'is_admin',
                   'is_accepted',
                   'is_moderator',
+                  'passport',
+                  'zagran',
+                  'birth_cert',
+                  'doc_type',
                 ]
+
+class DocSelectForm(forms.Form):
+    doc_type = forms.ChoiceField(choices=(('0','Паспорт'),('1','Загранпаспорт'),('2','Свидетельство о рождении')), required = False, label='Выберите тип документа')
+
+class ZagranForm(forms.ModelForm):
+    when_issued = forms.DateField(label='Когда выдан',widget=forms.DateInput(format = '%d/%m/%Y'), input_formats=('%d/%m/%Y',))        
+    class Meta:
+        model = Zagran
+
+class PassportForm(forms.ModelForm):
+    when_issued = forms.DateField(label='Когда выдан',widget=forms.DateInput(format = '%d/%m/%Y'), input_formats=('%d/%m/%Y',))
+    class Meta:
+        model = Passport
+
+class BirthCertForm(forms.ModelForm):
+    when_issued = forms.DateField(label='Когда выдан',widget=forms.DateInput(format = '%d/%m/%Y'), input_formats=('%d/%m/%Y',))
+    class Meta:
+        model = Birth_cert

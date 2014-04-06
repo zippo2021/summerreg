@@ -30,7 +30,7 @@
 	{% for every in table %}
 		<tr bgcolor="{% if every.is_accepted == True %}#7CCD7C{% else %}#FF7F50{% endif %}">	
 			<td>
-			<img src="summerreg/{{ every.avatar }}">
+			<img src="{% static every.avatar %}" />
 			</td>
 			{% for each in every.items %}
 			{% if each|first != 'id' and each|first != 'avatar' %}	

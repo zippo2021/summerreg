@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 
-from dashboard.forms import UserCreationForm
+from dashboard.forms import UserCreationForm,DocSelectForm,PassportForm,ZagranForm,BirthCertForm
 from dashboard.models import UserData
 
 def create_data_model(form,id,avatar):
@@ -51,12 +51,14 @@ def summer_registration(request):
         form = UserCreationForm(request.POST, request.FILES)
         if form.is_valid():
             id = request.user
-            avatar = request.FILES['avatar']
+            try:
+                avatar = request.FILES['avatar']
+                raise Exception('No file provided')
+            except Exception as inst:
+                avatar = None
             data = create_data_model(form,id,avatar)
-            data.save()
-            '''form.(initial={'id') = id
-            form.save();''' 
-            return redirect('dash_index')               
+            data.save() 
+            return redirect('doc_type_select')               
         else:
             html = render(request,"dashboard/summer_registration_form.html",{'form':form})
             return HttpResponse(html)
@@ -65,7 +67,44 @@ def summer_registration(request):
         html = render(request,"dashboard/summer_registration_form.html",{'form':form})    
         return HttpResponse(html)   
 
-      
+@login_required
+def doc_type_select(request):
+    if request.method == 'POST':
+        form = DocSelectForm(request.POST)
+        if form.is_valid():
+            data = UserData.objects.get(id=request.user)
+            doctype = form.cleaned_data.get('doc_type',None)            
+            data.doctype = doctype
+            data.save()
+            request.session['doctype'] = doctype
+            return redirect('doc_info')
+    else:
+        form = DocSelectForm()
+        html = render(request,"dashboard/doc_type_select.html",{'form':form})
+        return HttpResponse(html)
+
+@login_required
+def doc_info(request):
+    doctype = request.session['doctype']     
+    if doctype==0:
+        form = PassportForm(request.POST or None)
+    elif doctype==1:
+        form = ZagranForm(request.POST or None)
+    elif doctype==2:
+        form = BirthCertForm(request.POST or None)   
+    else:
+        form = PassportForm(request.POST or None)
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            return redirect('dash_index')
+        else:
+            html = render(request,"dashboard/doc_info_form.html",{'form':form})
+            return HttpResponse(html)    
+    else:
+        html = render(request,"dashboard/doc_info_form.html",{'form':form})
+        return HttpResponse(html)
+
 @login_required
 def user_data_viewer(request):
     id = request.user    
