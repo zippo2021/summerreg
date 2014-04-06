@@ -99,7 +99,8 @@ def doc_info(request):
             form.save()
             return redirect('dash_index')
         else:
-            html = render(request,"dashboard/doc_info_form.html",{'form':form})    
+            html = render(request,"dashboard/doc_info_form.html",{'form':form})
+            return HttpResponse(html)    
     else:
         html = render(request,"dashboard/doc_info_form.html",{'form':form})
         return HttpResponse(html)

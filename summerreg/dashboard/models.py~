@@ -24,7 +24,7 @@ class Zagran(models.Model):
 
 class UserData(models.Model):
     id = models.OneToOneField(User,primary_key=True)
-    avatar = models.ImageField(verbose_name='Аватар',  upload_to='media/images/profile_pics', blank=True, null=True)
+    avatar = models.ImageField(verbose_name='Аватар',  upload_to='static/media/images/profile_pics', blank=True, null=True)
     first_name = models.CharField(verbose_name='Имя',  max_length=255)
     middle_name = models.CharField(verbose_name='Отчество',  max_length=255,blank=True)
     last_name = models.CharField(verbose_name='Фамилия',  max_length=255)
@@ -36,10 +36,10 @@ class UserData(models.Model):
     building = models.PositiveIntegerField(verbose_name='Дом',  max_length=4)
     housing = models.PositiveIntegerField(verbose_name='Корпус',  max_length=2)
     appartment = models.PositiveIntegerField(verbose_name='Квартира',  max_length=5)
-    doc_type = models.PositiveIntegerField(verbose_name='Тип документа',max_length=1,default=None)
-    passport = models.OneToOneField(Passport,default=None)
-    zagran = models.OneToOneField(Zagran,default=None)
-    birth_cert = models.OneToOneField(Birth_cert,default=None)
+    doc_type = models.PositiveIntegerField(verbose_name='Тип документа',max_length=1,null=True)
+    passport = models.OneToOneField(Passport,null=True)
+    zagran = models.OneToOneField(Zagran,null=True)
+    birth_cert = models.OneToOneField(Birth_cert,null=True)
     is_admin = models.BooleanField(default=False)
     is_accepted = models.BooleanField(default=False)
     is_moderator = models.BooleanField(default=False)
