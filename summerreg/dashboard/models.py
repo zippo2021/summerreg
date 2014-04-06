@@ -24,7 +24,7 @@ class Zagran(models.Model):
 
 class UserData(models.Model):
     id = models.OneToOneField(User,primary_key=True)
-    avatar = models.ImageField(verbose_name='Аватар',  upload_to='media/images/profile_pics', blank=True, null=True)
+    avatar = models.ImageField(verbose_name='Аватар',  upload_to='images/profile_pics', blank=True, null=True)
     first_name = models.CharField(verbose_name='Имя',  max_length=255)
     middle_name = models.CharField(verbose_name='Отчество',  max_length=255,blank=True)
     last_name = models.CharField(verbose_name='Фамилия',  max_length=255)
