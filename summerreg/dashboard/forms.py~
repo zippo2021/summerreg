@@ -7,8 +7,11 @@ from django.forms.extras.widgets import SelectDateWidget
 BIRTH_YEAR_CHOICES = ('1984')
 BIRTH_MONTHS_CHOISES = ('1')
 BIRTH_DAYS_CHOISES = ('1')
+school_choices = (('Школа 1','Школа 1'),('Школа 2','Школа 2'),('Школа 3','Школа 3'))
+
 class UserCreationForm(forms.ModelForm):
     birthdate = forms.DateField(label='Дата рождения',widget=forms.DateInput(format = '%d/%m/%Y'), input_formats=('%d/%m/%Y',))
+    school = forms.ChoiceField(choices=school_choices, required = True, label='Школа')
     class Meta:
         model = UserData
         '''fields = [
@@ -36,19 +39,22 @@ class UserCreationForm(forms.ModelForm):
                 ]
 
 class DocSelectForm(forms.Form):
-    doc_type = forms.ChoiceField(choices=(('0','Паспорт'),('1','Загранпаспорт'),('2','Свидетельство о рождении')), required = False, label='Выберите тип документа')
+    doc_type = forms.ChoiceField(choices=((0,'Паспорт'),(1,'Загранпаспорт'),(2,'Свидетельство о рождении')), required = False, label='Выберите тип документа')
 
 class ZagranForm(forms.ModelForm):
     when_issued = forms.DateField(label='Когда выдан',widget=forms.DateInput(format = '%d/%m/%Y'), input_formats=('%d/%m/%Y',))        
     class Meta:
         model = Zagran
+        exclude = ['user']
 
 class PassportForm(forms.ModelForm):
     when_issued = forms.DateField(label='Когда выдан',widget=forms.DateInput(format = '%d/%m/%Y'), input_formats=('%d/%m/%Y',))
     class Meta:
         model = Passport
+        exclude = ['user']
 
 class BirthCertForm(forms.ModelForm):
     when_issued = forms.DateField(label='Когда выдан',widget=forms.DateInput(format = '%d/%m/%Y'), input_formats=('%d/%m/%Y',))
     class Meta:
         model = Birth_cert
+        exclude = ['user']

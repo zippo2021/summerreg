@@ -45,13 +45,16 @@ class ZagranForm(forms.ModelForm):
     when_issued = forms.DateField(label='Когда выдан',widget=forms.DateInput(format = '%d/%m/%Y'), input_formats=('%d/%m/%Y',))        
     class Meta:
         model = Zagran
+        exclude = ['user']
 
 class PassportForm(forms.ModelForm):
     when_issued = forms.DateField(label='Когда выдан',widget=forms.DateInput(format = '%d/%m/%Y'), input_formats=('%d/%m/%Y',))
     class Meta:
         model = Passport
+        exclude = ['user']
 
 class BirthCertForm(forms.ModelForm):
     when_issued = forms.DateField(label='Когда выдан',widget=forms.DateInput(format = '%d/%m/%Y'), input_formats=('%d/%m/%Y',))
     class Meta:
         model = Birth_cert
+        exclude = ['user']

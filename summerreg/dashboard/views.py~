@@ -3,35 +3,10 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 
 from dashboard.forms import UserCreationForm,DocSelectForm,PassportForm,ZagranForm,BirthCertForm
-from dashboard.models import UserData
+from dashboard.models import UserData,Passport,Zagran,Birth_cert
 
-def create_data_model(form,id,avatar):
-    first_name = form.cleaned_data.get('first_name',None)
-    middle_name = form.cleaned_data.get('middle_name',None)
-    last_name = form.cleaned_data.get('last_name',None)
-    birthdate = form.cleaned_data.get('birthdate',None)
-    birthplace = form.cleaned_data.get('birthplace',None)
-    postal_code = form.cleaned_data.get('postal_code',None)
-    city= form.cleaned_data.get('city',None)
-    street = form.cleaned_data.get('street',None)
-    building = form.cleaned_data.get('building',None)
-    housing = form.cleaned_data.get('housing',None)
-    appartment = form.cleaned_data.get('appartment',None)            
-    data = UserData(
-                    id=id,
-                    avatar=avatar,
-                    first_name=first_name,
-                    middle_name=middle_name,
-                    last_name=last_name,
-                    birthdate=birthdate,
-                    birthplace=birthplace,
-                    postal_code=postal_code,
-                    city=city,
-                    street=street,
-                    building=building,
-                    housing=housing,
-                    appartment=appartment,
-                    )        
+def create_data_model(form,id,avatar):          
+    data = UserData(id=id,**form.cleaned_data)        
     return data
 
 @login_required
@@ -73,7 +48,7 @@ def doc_type_select(request):
         form = DocSelectForm(request.POST)
         if form.is_valid():
             data = UserData.objects.get(id=request.user)
-            doctype = form.cleaned_data.get('doc_type',None)            
+            doctype = form.cleaned_data['doc_type']   
             data.doctype = doctype
             data.save()
             request.session['doctype'] = doctype
@@ -83,20 +58,35 @@ def doc_type_select(request):
         html = render(request,"dashboard/doc_type_select.html",{'form':form})
         return HttpResponse(html)
 
+def document_create(data,form,doctype):
+    if doctype==0:
+        document = Passport(user=data,**form.cleaned_data)
+    elif doctype==1:
+        document = Zagran(user=data,**form.cleaned_data)
+    elif doctype==2:
+        document = BirthCert(user=data,**form.cleaned_data)
+    else:
+        document = Passport(user=data,**form.cleaned_data)
+    return document
+
 @login_required
 def doc_info(request):
-    doctype = request.session['doctype']     
+    doctype = request.session['doctype'] 
+    data = UserData.objects.get(id=request.user)    
     if doctype==0:
         form = PassportForm(request.POST or None)
     elif doctype==1:
+        print doctype
         form = ZagranForm(request.POST or None)
     elif doctype==2:
+        print doctype
         form = BirthCertForm(request.POST or None)   
     else:
         form = PassportForm(request.POST or None)
     if request.method == 'POST':
-        if form.is_valid():
-            form.save()
+        if form.is_valid():                       
+            document = document_create(data,form,doctype)
+            document.save()
             return redirect('dash_index')
         else:
             html = render(request,"dashboard/doc_info_form.html",{'form':form})
@@ -111,19 +101,10 @@ def user_data_viewer(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST,request.FILES)    
         if form.is_valid():
-<<<<<<< HEAD
-            #try:
-            avatar = request.FILES['avatar']
-            #    raise Exception('No file provided')
-            #except Exception as inst:
-            #    avatar = None
-=======
             try:
                 avatar = request.FILES['avatar']
-            #raise Exception('No file provided')
             except Exception as inst:
                 avatar = None
->>>>>>> 99ec079467576e10a9d7591e3f2f42eee742228b
             data = create_data_model(form,id,avatar)
             data.save()
             return redirect('dash_index')
