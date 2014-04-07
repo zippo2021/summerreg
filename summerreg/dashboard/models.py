@@ -24,7 +24,7 @@ class UserData(models.Model):
     phys_teacher_initial = models.CharField(verbose_name='Фамилия Имя Отчество учителя физики',  max_length=255)
     maths_teacher_initial = models.CharField(verbose_name='Фамилия Имя Отчество учителя математики',  max_length=255)
     principle_initial = models.CharField(verbose_name='Фамилия Имя Отчество директора школы',  max_length=255)
-    doc_type = models.CharField(verbose_name='Тип документа',max_length=1,null=True)
+    doc_type = models.CharField(verbose_name='Тип документа',max_length=1,default='0')
     is_admin = models.BooleanField(default=False)
     is_accepted = models.BooleanField(default=False)
     is_moderator = models.BooleanField(default=False)

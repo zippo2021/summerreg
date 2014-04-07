@@ -5,7 +5,7 @@ from dashboard.models import UserData
 
 class showdb_form(forms.Form):
     #dynamic form, fields: checkboxes 
-    CITY_CHOICES = list(UserData.objects.values_list('city', flat = True))+['All']
+    CITY_CHOICES = list(set(UserData.objects.values_list('city', flat = True)))+['All']
     CITY_CHOICES = [(each, each) for each in CITY_CHOICES]
     cities = forms.MultipleChoiceField(required=True, widget=forms.CheckboxSelectMultiple, choices=CITY_CHOICES, label='Cities(to be trans)')
 
