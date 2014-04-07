@@ -64,7 +64,7 @@ def document_create(data,form,doctype):
     elif doctype=='1':
         document = Zagran(user=data,**form.cleaned_data)
     elif doctype=='2':
-        document = BirthCert(user=data,**form.cleaned_data)
+        document = Birth_cert(user=data,**form.cleaned_data)
     else:
         document = Passport(user=data,**form.cleaned_data)
     return document

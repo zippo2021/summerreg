@@ -59,11 +59,11 @@ def doc_type_select(request):
         return HttpResponse(html)
 
 def document_create(data,form,doctype):
-    if doctype==0:
+    if doctype=='0':
         document = Passport(user=data,**form.cleaned_data)
-    elif doctype==1:
+    elif doctype=='1':
         document = Zagran(user=data,**form.cleaned_data)
-    elif doctype==2:
+    elif doctype=='2':
         document = BirthCert(user=data,**form.cleaned_data)
     else:
         document = Passport(user=data,**form.cleaned_data)
@@ -73,12 +73,12 @@ def document_create(data,form,doctype):
 def doc_info(request):
     doctype = request.session['doctype'] 
     data = UserData.objects.get(id=request.user)    
-    if doctype==0:
+    if doctype=='0':
         form = PassportForm(request.POST or None)
-    elif doctype==1:
+    elif doctype=='1':
         print doctype
         form = ZagranForm(request.POST or None)
-    elif doctype==2:
+    elif doctype=='2':
         print doctype
         form = BirthCertForm(request.POST or None)   
     else:

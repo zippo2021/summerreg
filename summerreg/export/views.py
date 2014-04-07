@@ -63,7 +63,7 @@ def create_table(cleaned_data):
     fields = config.get('Export','fields_to_show').split(', ')
     #about cities
     if 'Все' in cleaned_data['cities']:
-	filter_cities = False
+	    filter_cities = False
     else:
         filter_cities = True
 	cities = cleaned_data['cities']
@@ -72,7 +72,7 @@ def create_table(cleaned_data):
     #executing
     filtered = UserData.objects.all()
     if filter_cities:
-	filtered = filtered.filter(city__in = cities)
+	    filtered = filtered.filter(city__in = cities)
     if filter_accepted:
         filtered = filtered.filter(is_accepted__exact = False)
     table = filtered.values(*fields)
