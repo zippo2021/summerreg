@@ -62,7 +62,7 @@ def create_table(cleaned_data):
     from dashboard.models import UserData
     fields = config.get('Export','fields_to_show').split(', ')
     #about cities
-    if 'All' in cleaned_data['cities']:
+    if 'Все' in cleaned_data['cities']:
 	    filter_cities = False
     else:
         filter_cities = True

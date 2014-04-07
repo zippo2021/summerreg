@@ -11,6 +11,7 @@ BIRTH_DAYS_CHOISES = ('1')
 school_choices = (('Школа 1','Школа 1'),('Школа 2','Школа 2'),('Школа 3','Школа 3'))
 
 class UserCreationForm(forms.ModelForm):
+    avatar = forms.ImageField(label='Аватар',required=False, error_messages = {'invalid':"Только изображения"}, widget=forms.FileInput)
     birthdate = forms.DateField(label='Дата рождения',widget=forms.DateInput(format = '%d/%m/%Y'), input_formats=('%d/%m/%Y',))
     school = forms.ChoiceField(choices=school_choices, required = True, label='Школа')
     class Meta:
@@ -61,13 +62,14 @@ class UserCreationForm(forms.ModelForm):
 
             except AttributeError:
                 pass
-            return avatar
+            return picture
 
 class DocSelectForm(forms.Form):
     doc_type = forms.ChoiceField(choices=(('0','Паспорт'),('1','Загранпаспорт'),('2','Свидетельство о рождении')), required = False, label='Выберите тип документа')
 
 class ZagranForm(forms.ModelForm):
-    when_issued = forms.DateField(label='Когда выдан',widget=forms.DateInput(format = '%d/%m/%Y'), input_formats=('%d/%m/%Y',))        
+    when_issued = forms.DateField(label='Когда выдан',widget=forms.DateInput(format = '%d/%m/%Y'), input_formats=('%d/%m/%Y',)) 
+    forms.DateField(label='Срок действия',widget=forms.DateInput(format = '%d/%m/%Y'), input_formats=('%d/%m/%Y',))       
     class Meta:
         model = Zagran
         exclude = ['user']
@@ -79,7 +81,7 @@ class PassportForm(forms.ModelForm):
         exclude = ['user']
 
 class BirthCertForm(forms.ModelForm):
-    when_issued = forms.DateField(label='Когда выдан',widget=forms.DateInput(format = '%d/%m/%Y'), input_formats=('%d/%m/%Y',))
+    when_issued = forms.DateField(label='Когда выдано',widget=forms.DateInput(format = '%d/%m/%Y'), input_formats=('%d/%m/%Y',))
     class Meta:
         model = Birth_cert
         exclude = ['user']

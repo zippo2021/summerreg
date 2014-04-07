@@ -26,11 +26,6 @@ def summer_registration(request):
         form = UserCreationForm(request.POST, request.FILES)
         if form.is_valid():
             id = request.user
-            try:
-                avatar = request.FILES['avatar']
-                raise Exception('No file provided')
-            except Exception as inst:
-                avatar = None
             data = create_data_model(form,id)
             data.save() 
             return redirect('doc_type_select')               
@@ -99,10 +94,7 @@ def user_data_viewer(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST,request.FILES)    
         if form.is_valid():
-            try:
-                avatar = request.FILES['avatar']
-            except Exception as inst:
-                avatar = None
+            print form.cleaned_data['avatar']
             data = create_data_model(form,id)
             data.save()
             return redirect('dash_index')
