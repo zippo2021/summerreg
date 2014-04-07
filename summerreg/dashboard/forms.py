@@ -12,27 +12,18 @@ school_choices = (('Школа 1','Школа 1'),('Школа 2','Школа 2'
 
 class UserCreationForm(forms.ModelForm):
     avatar = forms.ImageField(label='Аватар',required=True, error_messages = {'invalid':"Только изображения"}, widget=forms.FileInput)
-    birthdate = forms.DateField(label='Дата рождения',widget=forms.DateInput(format = '%d/%m/%Y'), input_formats=('%d/%m/%Y',))
+    birthdate = forms.DateField(label='Дата рождения',widget=forms.DateInput(format = '%d/%m/%Y'), input_formats=('%d/%m/%Y',),help_text="Формат: дд/мм/гггг")
     school = forms.ChoiceField(choices=school_choices, required = True, label='Школа')  
-    parent_1_phone = forms.RegexField(label='Телефон родителя 1',regex=r'^\+?1?\d{9,15}$', 
+    parent_1_phone = forms.RegexField(label='Телефон родителя 1',regex=r'^\+?1?\d{11,15}$', 
                                 error_message = ("Формат: '+00000000000'."))
-    parent_2_phone = forms.RegexField(label='Телефон родителя 2',regex=r'^\+?1?\d{9,15}$', 
+    parent_2_phone = forms.RegexField(label='Телефон родителя 2',regex=r'^\+?1?\d{11,15}$', 
                                 error_message = ("Формат: '+00000000000'."))
+    postal_code = forms.RegexField(label='Почтовый индекс',regex=r'^\d+',error_message = ("Необходимо ввести 6 цифр"))
+    building = forms.RegexField(label='Дом',regex=r'^\d+',required=True)
+    housing = forms.RegexField(label='Корпус',regex=r'^\d+',required=False)
+    appartment = forms.RegexField(label='Квартира',regex=r'^\d+',required=True)
     class Meta:
         model = UserData
-        '''fields = [
-                    'first_name',
-                    'middle_name',
-                    'last_name', 
-                    'birthdate',
-                    'birthplace',
-                    'postal_code',
-                    'city',
-                    'street',
-                    'building',
-                    'housing',
-                    'appartment',                    
-                ]'''
         exclude = [
                   'id',
                   'is_admin',
@@ -72,20 +63,20 @@ class DocSelectForm(forms.Form):
     doc_type = forms.ChoiceField(choices=(('0','Паспорт'),('1','Загранпаспорт'),('2','Свидетельство о рождении')), required = False, label='Выберите тип документа')
 
 class ZagranForm(forms.ModelForm):
-    when_issued = forms.DateField(label='Когда выдан',widget=forms.DateInput(format = '%d/%m/%Y'), input_formats=('%d/%m/%Y',)) 
-    forms.DateField(label='Срок действия',widget=forms.DateInput(format = '%d/%m/%Y'), input_formats=('%d/%m/%Y',))       
+    when_issued = forms.DateField(label='Когда выдан',widget=forms.DateInput(format = '%d/%m/%Y'), input_formats=('%d/%m/%Y',),help_text="Формат: дд/мм/гггг") 
+    exp_date = forms.DateField(label='Срок действия',widget=forms.DateInput(format = '%d/%m/%Y'), input_formats=('%d/%m/%Y',),help_text="Формат: дд/мм/гггг")       
     class Meta:
         model = Zagran
         exclude = ['user']
 
 class PassportForm(forms.ModelForm):
-    when_issued = forms.DateField(label='Когда выдан',widget=forms.DateInput(format = '%d/%m/%Y'), input_formats=('%d/%m/%Y',))
+    when_issued = forms.DateField(label='Когда выдан',widget=forms.DateInput(format = '%d/%m/%Y'), input_formats=('%d/%m/%Y',),help_text="Формат: дд/мм/гггг")
     class Meta:
         model = Passport
         exclude = ['user']
 
 class BirthCertForm(forms.ModelForm):
-    when_issued = forms.DateField(label='Когда выдано',widget=forms.DateInput(format = '%d/%m/%Y'), input_formats=('%d/%m/%Y',))
+    when_issued = forms.DateField(label='Когда выдано',widget=forms.DateInput(format = '%d/%m/%Y'), input_formats=('%d/%m/%Y',),help_text="Формат: дд/мм/гггг")
     class Meta:
         model = Birth_cert
         exclude = ['user']

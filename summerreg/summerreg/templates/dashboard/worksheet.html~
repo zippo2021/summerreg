@@ -7,14 +7,16 @@
       	{% for field in form %}
         <tr>        
         <div class="fieldWrapper">
-                <td>{{ field.errors }}
-                <b>{{ field.label }}:</b>
+                <td>
+                    <b>{{ field.label }}:</b>
                 </td>
                 <td> 
-                {% if  field.html_name  == 'avatar'  %}                
-                <img src="{% static field.value %}" />
-                {% endif %}  
-                {{ field }}</td>              
+                    {% if  field.html_name  == 'avatar'  %}                
+                    <img src="{% static field.value %}" />
+                    {% endif %}  
+                    {{ field }}
+                </td>     
+                <td>{{ field.errors }}</td>         
         </div>
         </tr>
         {% endfor %}

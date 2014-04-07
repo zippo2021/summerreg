@@ -8,7 +8,7 @@
         <tr>        
         <div class="fieldWrapper">
                 <td>{{ field.errors }}
-                <b>{{ field.label }}</b>:</td><td>{{ field }}</td>              
+                <b>{{ field.label }}</b>:</td><td>{{ field }} {{ field.help_text }}</td>             
         </div>
         </tr>
       {% endfor %}
