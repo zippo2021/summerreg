@@ -19,8 +19,8 @@
        <li class='has-sub'><a href='#'><span>Сервисы</span></a>
        <ul>
             {% if not user.is_staff  %}
-            {% if reg_permitted %}<li><a href="{% url 'summer_registration' %}"><span>Регистрация на летнюю школу</span></a></li> {% endif %}
-            <li class='last'><a href="{% url 'user_data' %}"><span>Редактирование анкеты</span></a></li>
+            {% if reg_permitted %}<li><a href="{% url 'summer_registration' %}"><span>Регистрация на летнюю школу</span></a></li> {% else %}
+            <li class='last'><a href="{% url 'user_data' %}"><span>Редактирование анкеты</span></a></li> {% endif %}
             {% else  %}
             <li class='last'><a href="{% url 'index'%}"><span>Работа с базой</span></a></li>
             

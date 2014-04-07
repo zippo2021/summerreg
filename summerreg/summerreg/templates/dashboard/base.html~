@@ -3,18 +3,28 @@
 {% load staticfiles %}
 <head>
     	<title>{% block title %}Личный кабинет{% endblock %}</title>
-        <link rel="stylesheet" type="text/css" href="{% static 'menu.css' %}" />    
+        <link rel="stylesheet" type="text/css" href="{% static 'menu.css' %}" />
+        <link rel="stylesheet" type="text/css" href="{% static 'form.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'table.css' %}" />
 </head>
                 
 <body>
 <div id='cssmenu'>
 {% block menu %}
     <ul>
-       <li class='active'><a href="{%  url 'dash_index' %}"><span>Личный кабинет пользователя {{ user.username }}</span></a></li>
+       <li class='active'><a href="{%  url 'dash_index' %}">
+       <span>
+       Личный кабинет {% if user.is_staff %} aдминистратора {% else %} пользователя {% endif %} {{ user.username }}
+       </span></a></li>
        <li class='has-sub'><a href='#'><span>Сервисы</span></a>
        <ul>
+            {% if not user.is_staff  %}
             {% if reg_permitted %}<li><a href="{% url 'summer_registration' %}"><span>Регистрация на летнюю школу</span></a></li> {% endif %}
             <li class='last'><a href="{% url 'user_data' %}"><span>Редактирование анкеты</span></a></li>
+            {% else  %}
+            <li class='last'><a href="{% url 'index'%}"><span>Работа с базой</span></a></li>
+            
+            {% endif  %}
        </ul>
        </li>
        <li class='last'><a href="{% url 'auth_logout' %}"><span>Выход</span></a></li>
