@@ -12,7 +12,7 @@
                 </td>
                 <td> 
                 {% if  field.html_name  == 'avatar'  %}                
-                <img src="{{ field.value.url }}" />
+                <img src="{% static field.value %}" />
                 {% endif %}  
                 {{ field }}</td>              
         </div>
