@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 class UserData(models.Model):
     id = models.OneToOneField(User,primary_key=True)
-    avatar = models.ImageField(verbose_name='Аватар',  upload_to='images/profile_pics', blank=True, null=True)
+    avatar = models.ImageField(verbose_name='Аватар',  upload_to='images/profile_pics')
     first_name = models.CharField(verbose_name='Имя',  max_length=255)
     middle_name = models.CharField(verbose_name='Отчество',  max_length=255,blank=True)
     last_name = models.CharField(verbose_name='Фамилия',  max_length=255)
@@ -17,9 +17,9 @@ class UserData(models.Model):
     housing = models.PositiveIntegerField(verbose_name='Корпус',  max_length=2)
     appartment = models.PositiveIntegerField(verbose_name='Квартира',  max_length=5)
     parent_1 = models.CharField(verbose_name='Фамилия Имя Отчество родителя 1',  max_length=255)
-    parent_1_phone  = models.PositiveIntegerField(verbose_name='Телефон родителя 1',max_length=14)  
+    parent_1_phone  = models.CharField(verbose_name='Телефон родителя 1',max_length=15)  
     parent_2 = models.CharField(verbose_name='Фамилия Имя Отчество родителя 2',  max_length=255,blank=True, null=True)
-    parent_2_phone = models.PositiveIntegerField(verbose_name='Телефон родителя 2',max_length=14,blank=True, null=True)
+    parent_2_phone = models.CharField(verbose_name='Телефон родителя 2',max_length=15,blank=True, null=True)
     school = models.CharField(verbose_name='Школа',  max_length=255)
     phys_teacher_initial = models.CharField(verbose_name='Фамилия Имя Отчество учителя физики',  max_length=255)
     maths_teacher_initial = models.CharField(verbose_name='Фамилия Имя Отчество учителя математики',  max_length=255)

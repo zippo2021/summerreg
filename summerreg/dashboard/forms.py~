@@ -11,9 +11,13 @@ BIRTH_DAYS_CHOISES = ('1')
 school_choices = (('Школа 1','Школа 1'),('Школа 2','Школа 2'),('Школа 3','Школа 3'))
 
 class UserCreationForm(forms.ModelForm):
-    avatar = forms.ImageField(label='Аватар',required=False, error_messages = {'invalid':_("Только изображения")}, widget=forms.FileInput)
+    avatar = forms.ImageField(label='Аватар',required=False, error_messages = {'invalid':"Только изображения"}, widget=forms.FileInput)
     birthdate = forms.DateField(label='Дата рождения',widget=forms.DateInput(format = '%d/%m/%Y'), input_formats=('%d/%m/%Y',))
-    school = forms.ChoiceField(choices=school_choices, required = True, label='Школа')
+    school = forms.ChoiceField(choices=school_choices, required = True, label='Школа')  
+    parent_1_phone = forms.RegexField(regex=r'^\+?1?\d{9,15}$', 
+                                error_message = ("Формат: '+00000000000'."))
+    parent_2_phone = forms.RegexField(regex=r'^\+?1?\d{9,15}$', 
+                                error_message = ("Формат: '+00000000000'."))
     class Meta:
         model = UserData
         '''fields = [
