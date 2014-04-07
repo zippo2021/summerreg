@@ -1,7 +1,7 @@
 {% extends "dashboard/base.html" %}
 {% block content %}
-
-<form enctype="multipart/form-data"  method="post">
+{% load staticfiles %}
+<form method="post">
       {% csrf_token %}
       <table>
       	{% for field in form %}

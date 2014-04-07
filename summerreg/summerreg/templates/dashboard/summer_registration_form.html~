@@ -12,7 +12,7 @@
       {% endfor %}
         <tr>
           <td colspan="2">
-            <input type="submit" name="login" value="Послать заявку"/>
+            <input type="submit" name="submit" value="Сохранить и перейти к следующему шагу"/>
           </td>
         </tr>
       </table>

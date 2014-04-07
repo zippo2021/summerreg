@@ -5,10 +5,12 @@
       {% csrf_token %}
       <table>
       {% for field in form %}
+        <tr>        
         <div class="fieldWrapper">
-                {{ field.errors }}
-                <b>{{ field.label }}</b>:{{ field }}              
+                <td>{{ field.errors }}
+                <b>{{ field.label }}</b>:</td><td>{{ field }}</td>              
         </div>
+        </tr>
       {% endfor %}
         <tr>
           <td colspan="2">
