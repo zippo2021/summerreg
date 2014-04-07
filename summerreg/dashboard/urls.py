@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, url
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns 
 
 from dashboard import views
 
@@ -9,3 +10,4 @@ urlpatterns = patterns('',
     url(r'^doc_type_select', views.doc_type_select, name='doc_type_select'),
     url(r'^doc_info', views.doc_info, name='doc_info'),       
         )
+

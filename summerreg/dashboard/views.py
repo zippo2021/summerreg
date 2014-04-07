@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from dashboard.forms import UserCreationForm,DocSelectForm,PassportForm,ZagranForm,BirthCertForm
 from dashboard.models import UserData,Passport,Zagran,Birth_cert
 
-def create_data_model(form,id,avatar):          
+def create_data_model(form,id):          
     data = UserData(id=id,**form.cleaned_data)        
     return data
 
@@ -26,12 +26,7 @@ def summer_registration(request):
         form = UserCreationForm(request.POST, request.FILES)
         if form.is_valid():
             id = request.user
-            try:
-                avatar = request.FILES['avatar']
-                raise Exception('No file provided')
-            except Exception as inst:
-                avatar = None
-            data = create_data_model(form,id,avatar)
+            data = create_data_model(form,id)
             data.save() 
             return redirect('doc_type_select')               
         else:
@@ -99,11 +94,8 @@ def user_data_viewer(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST,request.FILES)    
         if form.is_valid():
-            try:
-                avatar = request.FILES['avatar']
-            except Exception as inst:
-                avatar = None
-            data = create_data_model(form,id,avatar)
+            print form.cleaned_data['avatar']
+            data = create_data_model(form,id)
             data.save()
             return redirect('dash_index')
         else:
