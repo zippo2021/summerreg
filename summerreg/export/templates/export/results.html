@@ -40,7 +40,7 @@
 			{% endif %}
 			{% endfor %}
 			<td>
-			<a href="{% url 'showdb' %}/{{ every.id }}">Change</a>
+			<a href="{% url 'showdb' %}/{{ every.id }}">{% if every.is_accepted == True %}Отменить{% else %}Подтвердить{% endif %}</a>
 			</td>
 		</tr>
 	{% endfor %}
