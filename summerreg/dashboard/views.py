@@ -49,7 +49,7 @@ def doc_type_select(request):
         if form.is_valid():
             data = UserData.objects.get(id=request.user)
             doctype = form.cleaned_data['doc_type']   
-            data.doctype = doctype
+            data.doc_type = doctype
             data.save()
             request.session['doctype'] = doctype
             return redirect('doc_info')
@@ -70,16 +70,14 @@ def document_create(data,form,doctype):
     return document
 
 @login_required
-def doc_info(request):
-    doctype = request.session['doctype'] 
-    data = UserData.objects.get(id=request.user)    
+def doc_info(request): 
+    data = UserData.objects.get(id=request.user)   
+    doctype = data.doc_type
     if doctype=='0':
         form = PassportForm(request.POST or None)
     elif doctype=='1':
-        print doctype
         form = ZagranForm(request.POST or None)
     elif doctype=='2':
-        print doctype
         form = BirthCertForm(request.POST or None)   
     else:
         form = PassportForm(request.POST or None)
