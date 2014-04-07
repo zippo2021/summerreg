@@ -9,8 +9,8 @@
         <div class="fieldWrapper">
                 <td>{{ field.errors }}
                 <b>{{ field.label }}</b> 
-                {% if  field.html_name  == 'avatar'  %} 
-                <img src="{% static field.value %}" />
+                {% if  field.html_name  == 'avatar'  %}                
+                {% if field.avatar %}<img src="{{ field.value.url }}" /> {% endif %}
                 {% endif %}  
                 :</td><td>{{ field }}</td>              
         </div>

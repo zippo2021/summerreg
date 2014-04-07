@@ -5,14 +5,17 @@
       {% csrf_token %}
       <table>
       	{% for field in form %}
+        <tr>        
         <div class="fieldWrapper">
-                {{ field.errors }}
+                <td>{{ field.errors }}
                 <b>{{ field.label }}</b> 
                 {% if  field.html_name  == 'avatar'  %} 
-                <img src="{% static field.value %}" />
+                
+                {% if field.avatar %}<img src="{{ field.value.url }}" /> {% endif %}
                 {% endif %}  
-                :{{ field }}              
+                :</td><td>{{ field }}</td>              
         </div>
+        </tr>
         {% endfor %}
         <tr>
           <td colspan="2">
