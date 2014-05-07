@@ -1,0 +1,20 @@
+{% extends "dashboard/base.html" %}
+{% block content %}
+<p>Здесь отображаются все существующие события. Для добавления обратиться к администратору (создаение новых событий через сайт пока не реализовано).
+</p>
+<p><a href="javascript:history.go(-1)">Назад</a></p>
+
+<table class="CSSTableGenerator">
+	<tr><td> События</td> </tr>
+	{% for each in events %}
+	    <tr>
+	    <td>
+	    	<p><a href="{% url 'admin_events_main' %}/show/{{ each.id }}">{{ each.name }}</a></p>
+	    	<p>{{ each.issued }}---{{ each.closed }}
+	    	</p>
+	    </td>
+	    </tr>
+	{% endfor %}
+</table>		
+{% endblock %}
+  

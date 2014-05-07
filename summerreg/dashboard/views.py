@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
 from django.http import HttpResponse
 
 from dashboard.forms import UserCreationForm,DocSelectForm,PassportForm,ZagranForm,BirthCertForm
@@ -112,4 +113,64 @@ def user_data_viewer(request):
         html = render(request,"dashboard/worksheet.html",{'form':form})
         return HttpResponse(html)
     
+@login_required
+def user_events_main(request):
+    from dashboard.models import Event
+    user_id = request.user.id
+    events = Event.objects.all()
+    other = events.exclude(requests__id = user_id).exclude(participants__id = user_id)
+    requested = events.filter(requests__id = user_id)
+    applied = events.filter(participants__id = user_id)
+    html = render(request, "dashboard/user_events_main.html", {'events_requested':requested, 'events_applied':applied, 'events_other':other, 'id':user_id})
+    return HttpResponse(html)
+
+@login_required
+def user_events_request(request, event_id):
+    from dashboard.models import Event
+    event = Event.objects.get(id=event_id)
+    user_id = request.user
+    user = UserData.objects.get(id=user_id)
+    event.requests.add(user)
+    return redirect('user_events_main')
+
+@login_required
+def user_events_undo(request, event_id):
+    from dashboard.models import Event
+    event = Event.objects.get(id=event_id)
+    user_id = request.user
+    user = UserData.objects.get(id=user_id)
+    event.requests.remove(user)
+    return redirect('user_events_main')
+
+@staff_member_required
+def admin_events_show(request, event_id):
+    from dashboard.models import Event
+    event = Event.objects.get(id=event_id)
+    html = render(request,"dashboard/admin_events_show.html", {"event":event})
+    return HttpResponse(html)
+
+@staff_member_required
+def admin_events_main(request):
+    from dashboard.models import Event
+    events = Event.objects.all()
+    html = render(request, "dashboard/admin_events_main.html", {'events':events})
+    return HttpResponse(html)
+
+@staff_member_required
+def admin_events_apply(request, event_id, user_id):
+    from dashboard.models import Event
+    event = Event.objects.get(id=event_id)
+    user = UserData.objects.get(id=user_id)
+    event.requests.remove(user)
+    event.participants.add(user)
+    return redirect('admin_events_show', event_id)
+
+@staff_member_required
+def admin_events_disapply(request, event_id, user_id):
+    from dashboard.models import Event
+    event = Event.objects.get(id=event_id)
+    user = UserData.objects.get(id=user_id)
+    event.participants.remove(user)
+    event.requests.remove(user)
+    return redirect('admin_events_show', event_id)
 

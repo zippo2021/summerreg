@@ -5,6 +5,9 @@
 {% load field_type %}
 {% block title %}Создание запроса{% endblock %}
 {% block content %}
+<p>
+<a href="javascript:history.go(-1)">Назад</a>
+</p>
 <form action ="{% url 'showdb' %}" class="form-container" method="POST">
 	{% csrf_token %}
 	{{ form.non_field_errors }}
@@ -23,7 +26,4 @@
 	</div>
 		<p><input type="submit" value="Отобразить" /></p>
 	</form>
-<p>
-<a href="javascript:history.go(-1)">Назад</a>
-</p>
 {% endblock %}

@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 class UserData(models.Model):
     id = models.OneToOneField(User,primary_key=True)
-    avatar = models.ImageField(verbose_name='Аватар',  upload_to='images/profile_pics')
+    avatar = models.ImageField(verbose_name='Аватар',  upload_to='images/profile_pics',blank=True,null=True)
     first_name = models.CharField(verbose_name='Имя',  max_length=255)
     middle_name = models.CharField(verbose_name='Отчество',  max_length=255,blank=True,null=True)
     last_name = models.CharField(verbose_name='Фамилия',  max_length=255)
@@ -52,7 +52,9 @@ class Zagran(models.Model):
     when_issued = models.DateField(verbose_name="Когда выдан")
     exp_date = models.DateField(verbose_name="Срок действия")
 
-    
-
-    
-    
+class Event(models.Model):
+    name = models.CharField(verbose_name="Название", max_length=255)
+    issued = models.DateField(verbose_name="Содано")
+    closed = models.DateField(verbose_name="Закрыто")
+    requests = models.ManyToManyField(UserData, blank=True, related_name="requests")
+    participants = models.ManyToManyField(UserData, blank=True, related_name="participants")     

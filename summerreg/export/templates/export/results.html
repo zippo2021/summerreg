@@ -17,7 +17,7 @@
 			Аватар
 			</td>
 	{% for each in table|first %}
-			{% if each != 'id' and each != 'avatar' %}
+			{% if each != 'id' and each != 'avatar' and each != 'is_accepted' %}
 			<td>
 			{{ each }}
 			</td>
@@ -33,7 +33,7 @@
 			<img src="{% static every.avatar %}" height=50, width=50/>
 			</td>
 			{% for each in every.items %}
-			{% if each|first != 'id' and each|first != 'avatar' %}	
+			{% if each|first != 'id' and each|first != 'avatar' and each|first != 'is_accepted' %}	
 			<td>
 			{{ each|last }}
 			</td>

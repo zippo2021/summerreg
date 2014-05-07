@@ -1,0 +1,71 @@
+{% extends "dashboard/base.html" %}
+{% block content %}
+        <p>
+        Просмотр события: {{ event.name }}
+	</p>
+	<p>
+	Даты: {{ event.issued}}---{{ event.closed }}
+        </p>
+        <p><a href="javascript:history.go(-1)">Назад</a></p>
+
+        <table class="CSSTableGenerator">
+        <tr>
+                <td>
+                Фамилия Имя Отчество
+                </td>
+		<td>
+		Школа
+		</td>
+		<td>
+		Город
+		</td>
+		<td>
+		Дата рождения
+		</td>
+		<td>
+		Одобрить/отказать
+		</td>
+        </tr>
+                {% for each in event.requests.all %}
+                    <tr bgcolor="#ECEE60">
+                        <td>
+			<a href="">{{ each.last_name }} {{ each.first_name }} {{ each.middle_name }}</a>
+			</td> 
+			<td>
+			{{ each.school }}
+			</td>
+			<td>
+			{{ each.city }}
+			</td>
+			<td>
+			{{ each.birthdate }}
+			</td>
+                        <td>
+			<p><a href="{% url 'admin_events_main' %}/apply/{{ event.id }}/{{ each.id_id }}">Одобрить</a></p>
+                  	<p><a href="{% url 'admin_events_main' %}/disapply/{{ event.id }}/{{ each.id_id }}">Отказать</a></p>
+			</td>
+		     </tr>
+		{% endfor %}
+
+		{% for each in event.participants.all %}
+                    <tr bgcolor="#7CCD7C">
+                        <td>
+                        <a href="">{{ each.last_name }} {{ each.first_name }} {{ each.middle_name }}</a>
+                        </td>
+                        <td>
+                        {{ each.school }}
+                        </td>
+                        <td>
+                        {{ each.city }}
+                        </td>
+                        <td>
+                        {{ each.birthdate }}
+                        </td>
+                        <td>
+                  	<p><a href="{% url 'admin_events_main' %}/disapply/{{ event.id }}/{{ each.id_id }}">Исключить</a></p>
+                        </td>
+                     </tr>
+                {% endfor %}
+
+	</table>
+{% endblock %}

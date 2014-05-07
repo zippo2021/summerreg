@@ -40,8 +40,8 @@ def export_csv(request):
     writer = csv.writer(response)
     fields = config.get('Export','fields_to_csv').split(', ')
     #writer.writerow(fields)
-    for each in UserData.objects.values_list(*fields): 
-        writer.writerow(each)
+    for row in UserData.objects.values_list(*fields): 
+        writer.writerow([cell.encode("cp1251") for cell in row])
     return response
 
 @staff_member_required

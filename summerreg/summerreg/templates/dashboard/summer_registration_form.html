@@ -7,9 +7,15 @@
       {% for field in form %}
         <tr>        
         <div class="fieldWrapper">
-                <td>{{ field.errors }}
-                <b>{{ field.label }}</b>:</td><td>{{ field }} {{ field.help_text }}</td>             
-        </div>
+                <td>
+                    <b>{{ field.label }}:</b></td>
+                <td>
+                    {{ field }} {{ field.help_text }}
+                </td>
+                <td>
+                    {{ field.errors }}
+                </td>
+        </div> 
         </tr>
       {% endfor %}
         <tr>

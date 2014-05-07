@@ -1,0 +1,44 @@
+
+{% extends "dashboard/base.html" %}
+{% block content %}
+	<p>
+	Здесь отображаюттся все доступные события. Для подачи заявки на событие зелкните "Подать заявку" под соответствующим событием
+	</p>
+	<p><a href="javascript:history.go(-1)">Назад</a></p>
+
+	<table class="CSSTableGenerator">
+	<tr>
+		<td>
+		<p>
+		События:
+		</p>
+		</td>
+	</tr>
+		{% for each in events_other %}
+                    <tr>
+			<td><p>{{ each.name }}</p>
+                        <p>{{ each.issued }}---{{ each.closed }}</p>
+			<p><a href="{% url 'user_events_main' %}/request/{{ each.id }}">Подать заявку</a></p>
+                	
+			</td>
+		    </tr>
+		{% endfor %}
+		{%for each in events_requested %}
+		    <tr bgcolor="#ECEE60">
+			<td><p>{{ each.name }}</p>
+			<p>{{ each.issued }}---{{ each.closed }}</p>
+			<p>Ваша заявка принята, чтобы отменить ее нажмите "Отменить заявку"</p>
+			<p><a href="{% url 'user_events_main' %}/undo/{{ each.id }}">Отменить заявку</a></p>
+			</td>
+		    </tr>
+		{% endfor %}
+		{% for each in events_applied %}
+                    <tr bgcolor="#7CCD7C">
+			<td><p>{{ each.name }}</p>
+                        <p>{{ each.issued }}---{{ each.closed }}</p>
+                	<p>Ваша заявка одобрена, Вы приглашены на мероприятие</p>
+			</td>
+		    </tr>
+		{% endfor %}
+	</table>
+{% endblock %}

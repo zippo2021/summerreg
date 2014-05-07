@@ -1,10 +1,7 @@
-{% extends "base.html" %}
+{% extends "registration/base.html" %}
 {% block content %}
 {% load staticfiles %}
 <h1>Авторизация</h1>
-<head>
-<link rel="stylesheet" type="text/css" href="{% static 'form.css' %}" />
-</head>
 {% if user.is_authenticated %}
 Что такое, {{ user.username }}? Вы же уже авторизорваны. 
 Впрочем, всегда можно <a href="{% url 'auth_logout' %}">выйти</a>.<br/><br/>
@@ -24,18 +21,13 @@
     </dd>
 {% endfor %}
 </dl>
-<input type="submit" value="Вход" / class="clearfix">
+<input type="submit" value="Вход" class="clearfix">
 </form>
     
 <script type="text/javascript">
 document.getElementById('id_username').focus()
 </script>
-
- <br/><br/>
-<ul>
-    <li><a href="{% url 'auth_password_reset' %}">Забыли пароль?</a></li>
-    <li><a href="{% url 'registration_register' %}">Регистрация</a></li>
-</ul>   
+<p><a href="{% url 'registration_register' %}">Регистрация</a></p>
+  
 {% endif %}
 {% endblock %}
-
