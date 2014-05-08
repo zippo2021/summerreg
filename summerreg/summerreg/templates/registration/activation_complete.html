@@ -1,7 +1,8 @@
 {% extends "registration/base.html" %}
 {% block content %}
+<div align="center">
 <h1>Активация</h1>
-Привет, {{ account }}!<br/>
-Ваша учетная запись активирована. <a href="{% url 'dash_index' %}"> Заходите</a> на сайт.
-<br/><br/>
+<p>Привет, {{ account }}!</p>
+<p>Ваша учетная запись активирована. <a href="{% url 'dash_index' %}"> Заходите</a> на сайт.</p>
+</div>
 {% endblock %}
