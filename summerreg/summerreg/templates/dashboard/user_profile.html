@@ -1,0 +1,33 @@
+{% extends "dashboard/base.html" %}
+{% block content %}
+{% load staticfiles %}
+
+      <table class="CSSTableGenerator">
+       <tr> 
+        <td>Аватар</td>
+        <td>Имя</td>
+        <td>Отчество</td>
+        <td>Фамилия</td>
+        <td>Дата рождения</td>
+        <td>Город</td>
+        <td>Школа</td>
+        <td>Учитель физики</td>
+        
+       </tr>
+        <tr> 
+        <td><img src="{% static   avatar  %}" /></td>
+        <td>{{ first_name }}</td>
+        <td>{{ middle_name }}</td>
+        <td>{{ last_name }}</td>
+        <td>{{ birthdate }}</td>
+        <td>{{ city }}</td>
+        <td>{{ school }}</td>
+        <td>{{ phys_teacher_initial }}</td>
+        
+       </tr>
+
+      	
+      </table>
+    </form>
+
+{% endblock %}

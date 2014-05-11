@@ -16,5 +16,6 @@ urlpatterns = patterns('',
     url(r'^user_events/request/(?P<event_id>\d+)', views.user_events_request, name='user_events_request'),
     url(r'^user_events/undo/(?P<event_id>\d+)', views.user_events_undo, name='user_events_undo'),
     url(r'^user_events', views.user_events_main, name='user_events_main'),
+    url(r'^view_profile', views.view_profile, name='view_profile'),
     )
 

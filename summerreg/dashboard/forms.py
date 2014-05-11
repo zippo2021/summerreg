@@ -4,16 +4,16 @@ from dashboard.models import UserData,Passport,Zagran,Birth_cert
 from django.forms.fields import DateInput
 from django.forms.extras.widgets import SelectDateWidget
 from django.core.files.images import get_image_dimensions
-
+from school import school_choices
 BIRTH_YEAR_CHOICES = ('1984')
 BIRTH_MONTHS_CHOISES = ('1')
 BIRTH_DAYS_CHOISES = ('1')
-school_choices = (('Школа 1','Школа 1'),('Школа 2','Школа 2'),('Школа 3','Школа 3'))
+
 
 class UserCreationForm(forms.ModelForm):
     avatar = forms.ImageField(label='Аватар',required=False, error_messages = {'invalid':"Только изображения"}, widget=forms.FileInput)
     birthdate = forms.DateField(label='Дата рождения',widget=forms.DateInput(format = '%d/%m/%Y'), input_formats=('%d/%m/%Y',),help_text="Формат: дд/мм/гггг")
-    school = forms.ChoiceField(choices=school_choices, required = True, label='Школа')  
+    school = forms.ChoiceField(choices=school_choices, required = True, label='Школа',help_text="Если вашей школы нет в списке, обратитесь к администратору.")  
     parent_1_phone = forms.RegexField(label='Телефон родителя 1',regex=r'^\+?1?\d{11,15}$', 
                                 error_message = ("Формат: '+00000000000'."))
     parent_2_phone = forms.RegexField(label='Телефон родителя 2',regex=r'^\+?1?\d{11,15}$', 

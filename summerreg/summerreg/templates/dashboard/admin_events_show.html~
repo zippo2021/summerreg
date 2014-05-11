@@ -50,7 +50,7 @@
 		{% for each in event.participants.all %}
                     <tr bgcolor="#7CCD7C">
                         <td>
-                        <a href="{% url 'view_profile' %}?uid={{ each.id_id }}">{{ each.last_name }} {{ each.first_name }} {{ each.middle_name }}</a>
+                        <a href="">{{ each.last_name }} {{ each.first_name }} {{ each.middle_name }}</a>
                         </td>
                         <td>
                         {{ each.school }}

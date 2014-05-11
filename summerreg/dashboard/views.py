@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.http import HttpResponse
+from django.core.mail import EmailMessage
 
 from dashboard.forms import UserCreationForm,DocSelectForm,PassportForm,ZagranForm,BirthCertForm
 from dashboard.models import UserData,Passport,Zagran,Birth_cert
@@ -161,6 +162,7 @@ def admin_events_apply(request, event_id, user_id):
     from dashboard.models import Event
     event = Event.objects.get(id=event_id)
     user = UserData.objects.get(id=user_id)
+    mail = EmailMessage('Подтверждение заявки', message, settings.EMAIL_HOST_USER, [user.])
     event.requests.remove(user)
     event.participants.add(user)
     return redirect('admin_events_show', event_id)
@@ -173,4 +175,13 @@ def admin_events_disapply(request, event_id, user_id):
     event.participants.remove(user)
     event.requests.remove(user)
     return redirect('admin_events_show', event_id)
+
+@staff_member_required
+def view_profile(request):
+    uid = request.GET.get('uid','')
+    userdata = UserData.objects.get(id=uid)
+    context = userdata.__dict__
+    html = render(request, "dashboard/user_profile.html",context)
+    return HttpResponse(html)
+
 
