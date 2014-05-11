@@ -9,8 +9,8 @@ class showdb_form(forms.Form):
     CITY_CHOICES = [(each, each) for each in CITY_CHOICES]
     cities = forms.MultipleChoiceField(required=True, widget=forms.CheckboxSelectMultiple, choices=CITY_CHOICES, label='Cities(to be trans)')
 
-    #dynamic form, static fields
-    accepted = forms.ChoiceField(choices=(('all','Все'),('not','Только не принятые')), required = False, label='Users(to be trans)')
+    #EVENT_CHOICES = ['All']+Event.objects.values_list('name', flat = True)
+    #events = forms.MultipleChoiceField(required=True, widget=forms.CheckboxSelectMultiple, choices=EVENT_CHOICES, label='Events(to be trans)')
     #special
     def get_city_choices():
 	    return CITY_CHOICES[:].remove('All')

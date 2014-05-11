@@ -116,11 +116,12 @@ def user_data_viewer(request):
 @login_required
 def user_events_main(request):
     from dashboard.models import Event
+    from django.db.models import Q
     user_id = request.user.id
     events = Event.objects.all()
-    other = events.exclude(requests__id = user_id).exclude(participants__id = user_id)
+    other = events.exclude(requests__id = user_id).exclude(participants_n__id = user_id).exclude(participants_pr_vs__id = user_id).exclude(participants_po_vs__id = user_id).exclude(participants_ko_ms__id = user_id)
     requested = events.filter(requests__id = user_id)
-    applied = events.filter(participants__id = user_id)
+    applied = events.filter(Q(participants_n__id = user_id) | Q(participants_pr_vs__id = user_id) | Q(participants_po_vs__id = user_id) | Q(participants_ko_ms__id = user_id))
     html = render(request, "dashboard/user_events_main.html", {'events_requested':requested, 'events_applied':applied, 'events_other':other, 'id':user_id})
     return HttpResponse(html)
 
@@ -157,12 +158,19 @@ def admin_events_main(request):
     return HttpResponse(html)
 
 @staff_member_required
-def admin_events_apply(request, event_id, user_id):
+def admin_events_apply(request, event_id, user_id, p_type):
     from dashboard.models import Event
     event = Event.objects.get(id=event_id)
     user = UserData.objects.get(id=user_id)
     event.requests.remove(user)
-    event.participants.add(user)
+    if p_type == '0':
+        event.participants_n.add(user)
+    elif p_type == '1':
+	event.participants_pr_vs.add(user)
+    elif p_type == '2':
+	event.participants_po_vs.add(user)
+    else:
+	event.participants_ko_ms.add(user)
     return redirect('admin_events_show', event_id)
 
 @staff_member_required
@@ -170,7 +178,10 @@ def admin_events_disapply(request, event_id, user_id):
     from dashboard.models import Event
     event = Event.objects.get(id=event_id)
     user = UserData.objects.get(id=user_id)
-    event.participants.remove(user)
     event.requests.remove(user)
+    event.participants_n.remove(user)
+    event.participants_pr_vs.remove(user)
+    event.participants_po_vs.remove(user)
+    event.participants_ko_ms.remove(user)
     return redirect('admin_events_show', event_id)
 

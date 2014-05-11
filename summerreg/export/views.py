@@ -39,9 +39,15 @@ def export_csv(request):
     response['Content-Disposition'] = 'attachment; filename="db.csv"'
     writer = csv.writer(response)
     fields = config.get('Export','fields_to_csv').split(', ')
-    #writer.writerow(fields)
-    for row in UserData.objects.values_list(*fields): 
-        writer.writerow([cell.encode("cp1251") for cell in row])
+    writer.writerow(fields)
+    for row in UserData.objects.values_list(*fields):
+	cleaned_row = []
+	for cell in row:
+	    try:
+	        cleaned_row = cleaned_row + cell.encode('utf8')
+            except:
+		cleaned_row = cleaned_row + cell
+	writer.writerow(cleaned_row)
     return response
 
 @staff_member_required
@@ -67,14 +73,18 @@ def create_table(cleaned_data):
     else:
         filter_cities = True
 	cities = cleaned_data['cities']
-    #about is_accepted
-    filter_accepted = cleaned_data['accepted'] == 'not'
+    #about events 
+    #if 'All' in cleaned_data['events']:
+    #	    filter_events = False
+    #else:
+    #    filter_events = True
+    #	events = cleaned_data['events'] 
     #executing
+    #if filter_events:
+    #	filtered = Events.objects.filter(name__in = events)   
     filtered = UserData.objects.all()
     if filter_cities:
 	    filtered = filtered.filter(city__in = cities)
-    if filter_accepted:
-        filtered = filtered.filter(is_accepted__exact = False)
     table = filtered.values(*fields)
     return table
 

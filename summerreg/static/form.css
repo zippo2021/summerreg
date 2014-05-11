@@ -32,7 +32,7 @@ form select {
    padding:8px;
    margin-bottom:20px;
    }
-form input[type=file],form input[type=email], form input[type=image], form input[type=text], form input[type=hidden], form input[type=password] {
+form input[type=file], form input[type=number], form input[type=email], form input[type=image], form input[type=text], form input[type=hidden], form input[type=password] {
    border: 1px solid #ff0000;
    background: #ffffff;
    -webkit-border-radius: 0px;

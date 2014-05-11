@@ -10,7 +10,9 @@
 	    <tr>
 	    <td>
 	    	<p><a href="{% url 'admin_events_main' %}/show/{{ each.id }}">{{ each.name }}</a></p>
-	    	<p>{{ each.issued }}---{{ each.closed }}
+	    	<p>{{ each.issued }}---{{ each.closed }}</p>
+		<p>{{ each.place }}</p>
+		<p>{{ each.comment }}</p>
 	    	</p>
 	    </td>
 	    </tr>

@@ -18,6 +18,8 @@
                     <tr>
 			<td><p>{{ each.name }}</p>
                         <p>{{ each.issued }}---{{ each.closed }}</p>
+                        <p>{{ each.place }}</p>
+                        <p>{{ each.comment }}</p>
 			<p><a href="{% url 'user_events_main' %}/request/{{ each.id }}">Подать заявку</a></p>
                 	
 			</td>
@@ -26,7 +28,9 @@
 		{%for each in events_requested %}
 		    <tr bgcolor="#ECEE60">
 			<td><p>{{ each.name }}</p>
-			<p>{{ each.issued }}---{{ each.closed }}</p>
+                        <p>{{ each.issued }}---{{ each.closed }}</p>
+                        <p>{{ each.place }}</p>
+                        <p>{{ each.comment }}</p>
 			<p>Ваша заявка принята, чтобы отменить ее нажмите "Отменить заявку"</p>
 			<p><a href="{% url 'user_events_main' %}/undo/{{ each.id }}">Отменить заявку</a></p>
 			</td>
@@ -36,6 +40,8 @@
                     <tr bgcolor="#7CCD7C">
 			<td><p>{{ each.name }}</p>
                         <p>{{ each.issued }}---{{ each.closed }}</p>
+                        <p>{{ each.place }}</p>
+                        <p>{{ each.comment }}</p> 
                 	<p>Ваша заявка одобрена, Вы приглашены на мероприятие</p>
 			</td>
 		    </tr>

@@ -50,11 +50,16 @@ class Zagran(models.Model):
     number = models.PositiveIntegerField(verbose_name='Номер',max_length=7)
     issued_by = models.CharField(verbose_name="Кем выдан",max_length=255)
     when_issued = models.DateField(verbose_name="Когда выдан")
-    exp_date = models.DateField(verbose_name="Срок действия")
+    exp_date = models.DateField(verbose_name="Срок дейстшвия")
 
 class Event(models.Model):
     name = models.CharField(verbose_name="Название", max_length=255)
     issued = models.DateField(verbose_name="Содано")
     closed = models.DateField(verbose_name="Закрыто")
+    place = models.CharField(verbose_name="Место проведения", max_length=255)
+    comment = models.TextField(verbose_name="Комментарий", max_length=1000, blank=True)
     requests = models.ManyToManyField(UserData, blank=True, related_name="requests")
-    participants = models.ManyToManyField(UserData, blank=True, related_name="participants")     
+    participants_n = models.ManyToManyField(UserData, blank=True, related_name="participants_n")
+    participants_pr_vs = models.ManyToManyField(UserData, blank=True, related_name="participants_pr_vs") 
+    participants_po_vs = models.ManyToManyField(UserData, blank=True, related_name="participants_po_vs")
+    participants_ko_ms = models.ManyToManyField(UserData, blank=True, related_name="participants_ko_ms")
