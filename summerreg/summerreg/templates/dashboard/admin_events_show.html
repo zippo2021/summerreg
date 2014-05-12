@@ -6,6 +6,12 @@
 	<p>
 	Даты: {{ event.issued}}---{{ event.closed }}
         </p>
+	<p>
+	Место проведения: {{ event.place }}
+        </p>
+	<p>
+	Комментарий: {{ event.comment }}
+        </p>
         <p><a href="javascript:history.go(-1)">Назад</a></p>
 
         <table class="CSSTableGenerator">
@@ -27,7 +33,7 @@
 		</td>
         </tr>
                 {% for each in event.requests.all %}
-                    <tr bgcolor="#ECEE60">
+                    <tr>
                         <td>
 			<a href="{% url 'view_profile' %}?uid={{ each.id_id }}">{{ each.last_name }} {{ each.first_name }} {{ each.middle_name }}</a>
 			</td> 
@@ -41,13 +47,53 @@
 			{{ each.birthdate }}
 			</td>
                         <td>
-			<p><a href="{% url 'admin_events_main' %}/apply/{{ event.id }}/{{ each.id_id }}">Одобрить</a></p>
+			<p><a href="{% url 'admin_events_main' %}/apply/{{ event.id }}/{{ each.id_id }}/0">Одобрить(полная стоимость)</a></p>
+			<p><a href="{% url 'admin_events_main' %}/apply/{{ event.id }}/{{ each.id_id }}/1">Одобрить(призер всероса)</a></p>
+			<p><a href="{% url 'admin_events_main' %}/apply/{{ event.id }}/{{ each.id_id }}/2">Одобрить(победитель всероса)</a></p>
+			<p><a href="{% url 'admin_events_main' %}/apply/{{ event.id }}/{{ each.id_id }}/3">Одобрить(сборная Москвы)</a></p>
                   	<p><a href="{% url 'admin_events_main' %}/disapply/{{ event.id }}/{{ each.id_id }}">Отказать</a></p>
 			</td>
 		     </tr>
 		{% endfor %}
-
-		{% for each in event.participants.all %}
+		{% for each in event.participants_ko_ms.all %}
+                    <tr bgcolor="#ECEE60">
+                        <td>
+                        <a href="">{{ each.last_name }} {{ each.first_name }} {{ each.middle_name }}</a>
+                        </td>
+                        <td>
+                        {{ each.school }}
+                        </td>
+                        <td>
+                        {{ each.city }}
+                        </td>
+                        <td>
+                        {{ each.birthdate }}
+                        </td>
+                        <td>
+                  	<p><a href="{% url 'admin_events_main' %}/disapply/{{ event.id }}/{{ each.id_id }}">Исключить</a></p>
+                        </td>
+                     </tr>
+                {% endfor %}
+		{% for each in event.participants_po_vs.all %}
+                    <tr bgcolor="#54B6DD">
+                        <td>
+                        <a href="">{{ each.last_name }} {{ each.first_name }} {{ each.middle_name }}</a>
+                        </td>
+                        <td>
+                        {{ each.school }}
+                        </td>
+                        <td>
+                        {{ each.city }}
+                        </td>
+                        <td>
+                        {{ each.birthdate }}
+                        </td>
+                        <td>
+                  	<p><a href="{% url 'admin_events_main' %}/disapply/{{ event.id }}/{{ each.id_id }}">Исключить</a></p>
+                        </td>
+                     </tr>
+                {% endfor %}
+		{% for each in event.participants_pr_vs.all %}
                     <tr bgcolor="#7CCD7C">
                         <td>
                         <a href="{% url 'view_profile' %}?uid={{ each.id_id }}">{{ each.last_name }} {{ each.first_name }} {{ each.middle_name }}</a>
@@ -66,6 +112,24 @@
                         </td>
                      </tr>
                 {% endfor %}
-
+		{% for each in event.participants_n.all %}
+                    <tr>
+                        <td>
+                        <a href="">{{ each.last_name }} {{ each.first_name }} {{ each.middle_name }}</a>
+                        </td>
+                        <td>
+                        {{ each.school }}
+                        </td>
+                        <td>
+                        {{ each.city }}
+                        </td>
+                        <td>
+                        {{ each.birthdate }}
+                        </td>
+                        <td>
+                  	<p><a href="{% url 'admin_events_main' %}/disapply/{{ event.id }}/{{ each.id_id }}">Исключить</a></p>
+                        </td>
+                     </tr>
+                {% endfor %}
 	</table>
 {% endblock %}

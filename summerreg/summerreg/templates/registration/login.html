@@ -1,5 +1,6 @@
 {% extends "registration/base.html" %}
 {% block content %}
+<div align="center">
 {% load staticfiles %}
 <h1>Авторизация</h1>
 {% if user.is_authenticated %}
@@ -10,8 +11,7 @@
 {% if form.non_field_errors %}
 {{ form.non_field_errors }}
 {% endif %}
-
-<form method="post" class="form-container" action=""> {% csrf_token %}
+<form method="post" action=""> {% csrf_token %}
 <dl class="register">   
 {% for field in form %}
     <dt>{{ field.label_tag }}</dt>
@@ -30,4 +30,5 @@ document.getElementById('id_username').focus()
 <p><a href="{% url 'registration_register' %}">Регистрация</a></p>
   
 {% endif %}
+</div>
 {% endblock %}

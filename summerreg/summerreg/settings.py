@@ -59,12 +59,12 @@ WSGI_APPLICATION = 'summerreg.wsgi.application'
 
 ACCOUNT_ACTIVATION_DAYS = 2
 AUTH_USER_EMAIL_UNIQUE = True
-EMAIL_HOST = 'localhost'
-EMAIL_PORT = 1025
+EMAIL_HOST = ''
+EMAIL_PORT = 465
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
-EMAIL_USE_TLS = False
-DEFAULT_FROM_EMAIL = 'info@google.ru'
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = ''
 
 EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend' #test for userena
 

@@ -23,12 +23,9 @@
 			</td>
 			{% endif %}
 	{% endfor %}
-			<td>
-			Подтвердить/отменить
-			</td>
 		</tr>
 	{% for every in table %}
-		<tr bgcolor="{% if every.is_accepted == True %}#7CCD7C{% else %}#FF7F50{% endif %}">	
+		<tr>	
 			<td>
 			<img src="{% static every.avatar %}" height=50, width=50/>
 			</td>
@@ -39,8 +36,6 @@
 			</td>
 			{% endif %}
 			{% endfor %}
-			<td>
-			<a href="{% url 'showdb' %}/{{ every.id }}">{% if every.is_accepted == True %}Отменить{% else %}Подтвердить{% endif %}</a>
 			</td>
 		</tr>
 	{% endfor %}
