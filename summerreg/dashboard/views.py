@@ -199,10 +199,12 @@ def admin_events_disapply(request, event_id, user_id):
 
 @staff_member_required
 def view_profile(request):
+    from dashboard.models import Event
+    from django.db.models import Q
     uid = request.GET.get('uid','')
-    userdata = UserData.objects.get(id=uid)
-    context = userdata.__dict__
-    html = render(request, "dashboard/user_profile.html",context)
+    user = UserData.objects.get(id=uid)
+    events = Event.objects.filter(Q(participants_n__id = uid) | Q(participants_pr_vs__id = uid) | Q(participants_po_vs__id = uid) | Q(participants_ko_ms__id = uid)).values_list('name', flat=True)
+    html = render(request, "dashboard/user_profile.html", {'user': user, 'events': events})
     return HttpResponse(html)
 
 

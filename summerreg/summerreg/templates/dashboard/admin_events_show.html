@@ -58,7 +58,7 @@
 		{% for each in event.participants_ko_ms.all %}
                     <tr bgcolor="#ECEE60">
                         <td>
-                        <a href="">{{ each.last_name }} {{ each.first_name }} {{ each.middle_name }}</a>
+			<a href="{% url 'view_profile' %}?uid={{ each.id_id }}">{{ each.last_name }} {{ each.first_name }} {{ each.middle_name }}</a>
                         </td>
                         <td>
                         {{ each.school }}
@@ -77,7 +77,7 @@
 		{% for each in event.participants_po_vs.all %}
                     <tr bgcolor="#54B6DD">
                         <td>
-                        <a href="">{{ each.last_name }} {{ each.first_name }} {{ each.middle_name }}</a>
+			<a href="{% url 'view_profile' %}?uid={{ each.id_id }}">{{ each.last_name }} {{ each.first_name }} {{ each.middle_name }}</a>
                         </td>
                         <td>
                         {{ each.school }}
@@ -115,7 +115,7 @@
 		{% for each in event.participants_n.all %}
                     <tr>
                         <td>
-                        <a href="">{{ each.last_name }} {{ each.first_name }} {{ each.middle_name }}</a>
+                        <a href="{% url 'view_profile' %}?uid={{ each.id_id }}">{{ each.last_name }} {{ each.first_name }} {{ each.middle_name }}</a>
                         </td>
                         <td>
                         {{ each.school }}
