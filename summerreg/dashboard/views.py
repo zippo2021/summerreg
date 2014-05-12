@@ -176,7 +176,7 @@ def admin_events_apply(request, event_id, user_id, p_type):
 #!!!! Внимание костыль !!!!
     message = 'message'
     attachment = open('attachment.txt')
-#!!!! Будет через конфиги !!!!
+#!!!! Будет через конфиги !
     try:
         mail = EmailMessage('Подтверждение заявки', message, settings.EMAIL_HOST_USER, [user.User.email])
         mail.attach(attachment.name,attachment.read(),attachment.content_type)
