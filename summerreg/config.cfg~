@@ -2,4 +2,4 @@
 fields_to_show = avatar, last_name, first_name, middle_name, school, city, id
 fields_to_csv = last_name, first_name, middle_name, school, birthdate, city, street, building, housing, appartment, parent_1, parent_1_phone, parent_2, parent_2_phone, phys_teacher_initial, maths_teacher_initial, principle_initial
 [common]
-REAL_PRICE = 9123
+price = 9123
