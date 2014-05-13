@@ -14,9 +14,9 @@ class UserCreationForm(forms.ModelForm):
     avatar = forms.ImageField(label='Аватар',required=False, error_messages = {'invalid':"Только изображения"}, widget=forms.FileInput)
     birthdate = forms.DateField(label='Дата рождения',widget=forms.DateInput(format = '%d/%m/%Y'), input_formats=('%d/%m/%Y',),help_text="Формат: дд/мм/гггг")
     school = forms.ChoiceField(choices=school_choices, required = True, label='Школа',help_text="Если вашей школы нет в списке, обратитесь к администратору.")  
-    parent_1_phone = forms.RegexField(label='Телефон родителя 1',regex=r'^\+?1?\d{11,15}$', 
+    parent_1_phone = forms.RegexField(label='Телефон отца',required=False,regex=r'^\+?1?\d{11,15}$', 
                                 error_message = ("Формат: '+00000000000'."))
-    parent_2_phone = forms.RegexField(label='Телефон родителя 2',regex=r'^\+?1?\d{11,15}$', 
+    parent_2_phone = forms.RegexField(label='Телефон матери',required=False,regex=r'^\+?1?\d{11,15}$', 
                                 error_message = ("Формат: '+00000000000'."))
     postal_code = forms.RegexField(label='Почтовый индекс',regex=r'^\d+',error_message = ("Необходимо ввести 6 цифр"))
     building = forms.RegexField(label='Дом',regex=r'^\d+',required=True)

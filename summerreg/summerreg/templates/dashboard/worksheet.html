@@ -5,7 +5,7 @@
       {% csrf_token %}
       <table>
       	{% for field in form %}
-        {% if field.html_name != 'avatar' %}
+        
         <tr>        
         <div class="fieldWrapper">
                 <td>
@@ -21,7 +21,6 @@
                 <td>{{ field.errors }}</td>         
         </div>
         </tr>
-        {% endif %}
         {% endfor %}
         <tr>
           <td colspan="2">

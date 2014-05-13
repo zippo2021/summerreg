@@ -5,22 +5,14 @@
       {% csrf_token %}
       <table>
       {% for field in form %}
-        <tr>        
         <div class="fieldWrapper">
-                <td>
-                    <b>{{ field.label }}:</b></td>
-                <td>
-                    {{ field }} {{ field.help_text }}
-                </td>
-                <td>
-                    {{ field.errors }}
-                </td>
-        </div> 
-        </tr>
+                {{ field.errors }}
+                <b>{{ field.label }}</b>:{{ field }}              
+        </div>
       {% endfor %}
         <tr>
           <td colspan="2">
-            <input type="submit" name="submit" value="Сохранить и перейти к следующему шагу"/>
+            <input type="submit" name="login" value="Послать заявку"/>
           </td>
         </tr>
       </table>

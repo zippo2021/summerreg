@@ -1,0 +1,50 @@
+
+{% extends "dashboard/base.html" %}
+{% load staticfiles %}
+<head>
+	{% block title %}Результаты выгрузки{% endblock %}
+	<link rel="stylesheet" type="text/css" href="{% static 'table.css' %}" />
+</head>
+{% block content%}
+<p><a href="javascript:history.go(-1)">Назад</a></p>
+{% if no_results == True %}
+	<p>В базе данных нет результатов, удовлетвряющих вашему запросу<p>
+{% else %}
+<div class="CSSTableGenerator">
+<table>
+		<tr> 
+			<td>
+			Аватар
+			</td>
+	{% for each in table|first %}
+			{% if each != 'id' and each != 'avatar' %}
+			<td>
+			{{ each }}
+			</td>
+			{% endif %}
+	{% endfor %}
+			<td>
+			Apply/Disapply
+			</td>
+		</tr>
+	{% for every in table %}
+		<tr bgcolor="{% if every.is_accepted == True %}#7CCD7C{% else %}#FF7F50{% endif %}">	
+			<td>
+			<img src="{% static every.avatar %}" height=50, width=50/>
+			</td>
+			{% for each in every.items %}
+			{% if each|first != 'id' and each|first != 'avatar' %}	
+			<td>
+			{{ each|label }}
+			</td>
+			{% endif %}
+			{% endfor %}
+			<td>
+			<a href="{% url 'showdb' %}/{{ every.id }}">Change</a>
+			</td>
+		</tr>
+	{% endfor %}
+</table>
+</div>
+{% endif %}
+{% endblock %}

@@ -96,6 +96,7 @@ def apply_user(request, id):
     user.save()
     return redirect('results')
 
+#not in use
 def results(request):
      cleaned_data = request.session['form_data']
      table = create_table(cleaned_data)

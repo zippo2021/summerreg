@@ -1,0 +1,29 @@
+{% extends "dashboard/base.html" %}
+{% load staticfiles %}
+<head>
+	<link rel="stylesheet" type="text/css" href="{% static 'form.css' %}" />
+</head>
+{% load field_type %}
+{% block title %}Создание запроса{% endblock %}
+{% block content %}
+<form action ="{% url 'showdb' %}" method="POST">
+	{% csrf_token %}
+	{{ form.non_field_errors }}
+	<div class="fieldWrapper">
+		<p> Выбор города: </p>	
+			{{ form.cities.label_tag }}
+		        {{ form.cities.errors }}
+			{{ form.cities }}
+		
+	</div>
+	<div class="fieldWrapper">
+		<p> Выбор группы учеников: </p>
+		        {{ form.accepted.errors }}
+			{{ form.cities.label_tag }}
+			{{ form.accepted }}
+		
+	</div>
+		<p><input type="submit" value="Отобразить" /></p>
+	</form>
+<a href="javascript:history.go(-1)">Назад</a>
+{% endblock %}

@@ -4,7 +4,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.http import HttpResponse
 from django.core.mail import EmailMessage
-from django.template import loader
+from django.template import loader,Context
+from django.conf import settings
+import os
 
 import ConfigParser
 
@@ -13,7 +15,6 @@ from dashboard.models import UserData,Passport,Zagran,Birth_cert
 
 config = ConfigParser.ConfigParser()
 config.readfp(open('config.cfg'))
-REAL_PRICE = int(config.get('common', 'REAL_PRICE'))
 
 def create_data_model(form,id):          
     data = UserData(id=id,**form.cleaned_data)        
@@ -21,13 +22,14 @@ def create_data_model(form,id):
 
 @login_required
 def dash_index(request):
-    id = request.user     
+    id = request.user
     p = False    
     try:
         tmp_data = UserData.objects.get(id=id)
     except UserData.DoesNotExist:
-        p = True #No userdata stored, so registration is available       
-    html = render(request,"dashboard/dash_index.html",{"reg_permitted":p})
+        p = True #No userdata stored, so registration is available 
+    request.session['reg_perm'] = p      
+    html = render(request,"dashboard/dash_index.html")
     return HttpResponse(html)
 
 @login_required
@@ -109,7 +111,7 @@ def user_data_viewer(request):
             data.save()
             return redirect('dash_index')
         else:
-            html = render(request,"dashboard/summer_registration_form.html",{'form':form})
+            html = render(request,"dashboard/worksheet.html",{'form':form})
             return HttpResponse(html)
     else:    
         try:
@@ -141,6 +143,8 @@ def user_events_request(request, event_id):
     user_id = request.user
     user = UserData.objects.get(id=user_id)
     event.requests.add(user)
+    event.num_req+=1
+    event.save()
     return redirect('user_events_main')
 
 @login_required
@@ -150,6 +154,8 @@ def user_events_undo(request, event_id):
     user_id = request.user
     user = UserData.objects.get(id=user_id)
     event.requests.remove(user)
+    event.num_req-=1
+    event.save()
     return redirect('user_events_main')
 
 @staff_member_required
@@ -172,29 +178,33 @@ def admin_events_apply(request, event_id, user_id, p_type):
     event = Event.objects.get(id=event_id)
     user = UserData.objects.get(id=user_id)
     event.requests.remove(user)
+    event.num_req-=1
     if p_type == '0':
         event.participants_n.add(user)
-        price = REAL_PRICE
+        price = event.price_n
+        event.num_n+=1
     elif p_type == '1':
     	event.participants_pr_vs.add(user)
-        price = 0.9*REAL_PRICE
+        price = event.price_pr_vs
+        event.num_pr_vs+=1
     elif p_type == '2':
     	event.participants_po_vs.add(user)
-        price = 0.8*REAL_PRICE
+        price = event.price_po_vs
+        event.num_po_vs+=1
     else:
     	event.participants_ko_ms.add(user)
-        price = 0.5*REAL_PRICE
+        price = event.price_ko_ms
+        event.num_ko_ms+=1
+    event.save()
 #!!!! Внимание костыль !!!! 
     date = 0
     template = loader.get_template('email.txt')
-    attachment = open('attachment.txt')     
-    message = template.render({'price':price,'date':date})
-    try:
-        mail = EmailMessage('Подтверждение заявки', message, settings.EMAIL_HOST_USER, [user.User.email])
-        mail.attach(attachment.name,attachment.read(),attachment.content_type)
-        mail.send()    
-    except:
-        pass
+    attachment = open(os.path.dirname(os.path.abspath(__file__))+'/attachment.txt','rb')     
+    #message = template.render(Context({'price':price,'date':date}))
+    message = 'message'
+    mail = EmailMessage('Подтверждение заявки', message, settings.EMAIL_HOST_USER, [user.id.email])
+    mail.attach(attachment.name,attachment.read(),"text/plain")
+    mail.send()    
     return redirect('admin_events_show',event_id)
 
 @staff_member_required
@@ -203,18 +213,25 @@ def admin_events_disapply(request, event_id, user_id):
     event = Event.objects.get(id=event_id)
     user = UserData.objects.get(id=user_id)
     event.requests.remove(user)
-    event.participants_n.remove(user)
-    event.participants_pr_vs.remove(user)
-    event.participants_po_vs.remove(user)
-    event.participants_ko_ms.remove(user)
+    event.num_req-=1
+    event.save()
+    #event.participants_n.remove(user)
+    #event.participants_pr_vs.remove(user)
+    #event.participants_po_vs.remove(user)
+    #event.participants_ko_ms.remove(user)
     return redirect('admin_events_show', event_id)
 
 @staff_member_required
 def view_profile(request):
+    from dashboard.models import Event
+    from django.db.models import Q
     uid = request.GET.get('uid','')
-    userdata = UserData.objects.get(id=uid)
-    context = userdata.__dict__
-    html = render(request, "dashboard/user_profile.html",context)
+    user = UserData.objects.get(id=uid)
+    events = Event.objects.filter(Q(participants_n__id = uid) | Q(participants_pr_vs__id = uid) | Q(participants_po_vs__id = uid) | Q(participants_ko_ms__id = uid)).values_list('name', flat=True)
+    html = render(request, "dashboard/user_profile.html", {'user': user, 'events': events})
     return HttpResponse(html)
 
-
+@login_required
+def user_events_information_file(request, filename):
+    f = open(filename,'rb')
+    return HttpResponse(f, mimetype='none')

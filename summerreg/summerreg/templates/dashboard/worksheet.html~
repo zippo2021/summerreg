@@ -1,24 +1,18 @@
 {% extends "dashboard/base.html" %}
 {% block content %}
-{% load staticfiles %}
-<form enctype="multipart/form-data" method="post">
+
+<form enctype="multipart/form-data"  method="post">
       {% csrf_token %}
       <table>
       	{% for field in form %}
-        <tr>        
         <div class="fieldWrapper">
-                <td>
-                    <b>{{ field.label }}:</b>
-                </td>
-                <td> 
-                    {% if  field.html_name  == 'avatar'  %}                
-                    <img src="{% static field.value %}" />
-                    {% endif %}  
-                    {{ field }}
-                </td>     
-                <td>{{ field.errors }}</td>         
+                {{ field.errors }}
+                <b>{{ field.label }}</b> 
+                {% if  field.html_name  == 'avatar'  %} 
+                <img src="{% static field.value %}" />
+                {% endif %}  
+                :{{ field }}              
         </div>
-        </tr>
         {% endfor %}
         <tr>
           <td colspan="2">
